@@ -1,0 +1,1663 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>GoGO — Interaktiv Demo</title>
+  <style>
+/* ===================== DESIGN TOKENS ===================== */
+:root {
+  --bg:     #070a12;
+  --bg2:    #0b1222;
+  --surface:#0f1829;
+  --card:   rgba(255,255,255,.06);
+  --card2:  rgba(255,255,255,.10);
+  --line:   rgba(234,240,255,.14);
+  --text:   #eaf0ff;
+  --muted:  rgba(234,240,255,.65);
+  --accent: #26d0ce;
+  --accent2:#6c5ce7;
+  --green:  #00cba9;
+  --red:    #ff5f6d;
+  --yellow: #ffd166;
+  --radius: 16px;
+  --shadow: 0 12px 40px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(900px 600px at 5% 5%,  rgba(38,208,206,.16),transparent 50%),
+    radial-gradient(800px 600px at 95% 10%, rgba(108,92,231,.14),transparent 50%),
+    linear-gradient(180deg,var(--bg),var(--bg2));
+  min-height:100vh;
+}
+[hidden]{display:none!important}
+a{color:var(--accent);text-decoration:none}
+
+/* ===================== UTILS ===================== */
+.container{width:min(1100px,calc(100% - 28px));margin-inline:auto}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.flex{display:flex;align-items:center;gap:10px}
+.flex-between{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.gap4{gap:4px} .gap8{gap:8px} .gap16{gap:16px}
+.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}.mt20{margin-top:20px}
+.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}
+.text-center{text-align:center}
+.text-sm{font-size:13px} .text-xs{font-size:11px}
+.bold{font-weight:700} .bolder{font-weight:900}
+.muted{color:var(--muted)}
+.green{color:var(--green)} .red{color:var(--red)} .yellow{color:var(--yellow)} .accent{color:var(--accent)}
+.w100{width:100%}
+.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ===================== CARD ===================== */
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:16px;
+  box-shadow:var(--shadow);
+}
+.card--glass{background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,.04))}
+.card--accent{background:linear-gradient(135deg,rgba(38,208,206,.14),rgba(108,92,231,.12));border-color:rgba(38,208,206,.3)}
+.card--green{background:rgba(0,203,169,.1);border-color:rgba(0,203,169,.3)}
+.card--red{background:rgba(255,95,109,.1);border-color:rgba(255,95,109,.3)}
+.card--yellow{background:rgba(255,209,102,.1);border-color:rgba(255,209,102,.3)}
+
+/* ===================== BADGE ===================== */
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;
+}
+.badge--green{background:rgba(0,203,169,.15);color:var(--green);border:1px solid rgba(0,203,169,.3)}
+.badge--red{background:rgba(255,95,109,.15);color:var(--red);border:1px solid rgba(255,95,109,.3)}
+.badge--yellow{background:rgba(255,209,102,.15);color:var(--yellow);border:1px solid rgba(255,209,102,.3)}
+.badge--blue{background:rgba(38,208,206,.15);color:var(--accent);border:1px solid rgba(38,208,206,.3)}
+.badge--purple{background:rgba(108,92,231,.15);color:#a89cf7;border:1px solid rgba(108,92,231,.3)}
+
+/* ===================== BUTTONS ===================== */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:10px 18px;border-radius:12px;font-weight:700;font-size:14px;
+  border:1px solid var(--line);cursor:pointer;transition:all .18s ease;
+  text-decoration:none;background:transparent;color:var(--text);
+  position:relative;overflow:hidden;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.btn:active{transform:translateY(0)}
+.btn--primary{
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  border-color:transparent;color:#050c14;font-weight:900;
+  box-shadow:0 4px 20px rgba(38,208,206,.3);
+}
+.btn--primary:hover{box-shadow:0 8px 28px rgba(38,208,206,.45)}
+.btn--ghost{background:rgba(255,255,255,.06);color:var(--text)}
+.btn--ghost:hover{background:rgba(255,255,255,.1)}
+.btn--danger{background:rgba(255,95,109,.15);color:var(--red);border-color:rgba(255,95,109,.3)}
+.btn--danger:hover{background:rgba(255,95,109,.25)}
+.btn--green{background:rgba(0,203,169,.15);color:var(--green);border-color:rgba(0,203,169,.3)}
+.btn--green:hover{background:rgba(0,203,169,.25)}
+.btn--sm{padding:7px 14px;font-size:12px;border-radius:10px}
+.btn--xs{padding:4px 10px;font-size:11px;border-radius:8px}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+/* ===================== FORM ===================== */
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-label{font-size:13px;font-weight:600;color:var(--muted)}
+.form-control{
+  width:100%;padding:10px 14px;border-radius:12px;
+  background:rgba(0,0,0,.3);border:1px solid var(--line);
+  color:var(--text);font-size:14px;outline:none;
+  transition:border-color .15s,box-shadow .15s;
+}
+.form-control:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(38,208,206,.15)}
+select.form-control option{background:#0f1829;color:var(--text)}
+.form-grid{display:grid;gap:12px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* ===================== INPUT GROUP ===================== */
+.input-arrow{
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;
+}
+.input-arrow-sep{
+  color:var(--accent);font-weight:900;font-size:18px;text-align:center;
+}
+
+/* ===================== TOPBAR ===================== */
+#topbar{
+  position:sticky;top:0;z-index:200;
+  background:rgba(7,10,18,.88);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 0;gap:12px;flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+.brand-logo{
+  font-weight:900;font-size:20px;padding:6px 12px;border-radius:10px;
+  background:linear-gradient(135deg,rgba(38,208,206,.25),rgba(108,92,231,.25));
+  border:1px solid var(--line);
+}
+.brand-tag{font-size:12px;color:var(--muted)}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.user-chip{
+  display:flex;align-items:center;gap:8px;padding:8px 14px;
+  border-radius:999px;background:rgba(255,255,255,.07);
+  border:1px solid var(--line);font-size:13px;font-weight:700;
+}
+.user-chip-avatar{
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:900;
+}
+.avatar-driver{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#050c14}
+.avatar-customer{background:linear-gradient(135deg,var(--yellow),#ff9a3c);color:#050c14}
+
+/* ===================== LOGIN PAGE ===================== */
+#loginPage{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px;
+}
+.login-title{font-size:36px;font-weight:900;margin-bottom:6px;text-align:center}
+.login-title span{
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.login-sub{color:var(--muted);text-align:center;margin-bottom:32px;font-size:15px}
+
+/* credentials box */
+.creds-box{
+  background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px;margin-bottom:32px;width:100%;max-width:700px;
+}
+.creds-title{font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.creds-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cred-item{
+  background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;
+  padding:10px 14px;cursor:pointer;transition:all .15s;
+}
+.cred-item:hover{background:rgba(38,208,206,.1);border-color:rgba(38,208,206,.4)}
+.cred-type{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.cred-type.driver{color:var(--accent)}
+.cred-type.customer{color:var(--yellow)}
+.cred-login{font-size:14px;font-weight:700;font-family:monospace}
+.cred-pass{font-size:12px;color:var(--muted);font-family:monospace}
+.cred-hint{font-size:10px;color:var(--muted);margin-top:2px}
+
+.login-form{width:100%;max-width:380px}
+.login-form .card{padding:28px}
+.login-form h3{font-size:20px;font-weight:900;margin-bottom:20px;text-align:center}
+
+/* ===================== APP SHELL ===================== */
+#appShell{display:none;min-height:100vh;padding-bottom:60px}
+
+/* ===================== TABS / NAV ===================== */
+.tab-bar{
+  display:flex;gap:4px;padding:4px;
+  background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:14px;
+  overflow-x:auto;
+}
+.tab-btn{
+  flex:1;min-width:max-content;padding:10px 16px;border-radius:10px;
+  background:transparent;border:none;color:var(--muted);cursor:pointer;
+  font-size:13px;font-weight:600;transition:all .15s;white-space:nowrap;
+}
+.tab-btn.active{background:linear-gradient(90deg,rgba(38,208,206,.2),rgba(108,92,231,.2));color:var(--text);border:1px solid rgba(38,208,206,.3)}
+.tab-btn:hover:not(.active){background:rgba(255,255,255,.05);color:var(--text)}
+
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ===================== SECTION HEADER ===================== */
+.sec-head{margin-bottom:20px}
+.sec-title{
+  font-size:22px;font-weight:900;margin-bottom:4px;
+  background:linear-gradient(135deg,var(--text),var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sec-sub{font-size:13px;color:var(--muted)}
+
+/* ===================== FILTER PANEL ===================== */
+.filter-panel{
+  background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;margin-bottom:20px;
+}
+.filter-title{font-size:13px;font-weight:700;margin-bottom:12px;color:var(--accent)}
+.filter-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.filter-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+
+/* ===================== ORDER CARD ===================== */
+.order-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px;transition:border-color .2s,transform .2s;cursor:pointer;
+}
+.order-card:hover{border-color:rgba(38,208,206,.4);transform:translateY(-2px)}
+.order-route{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.route-from,.route-to{font-weight:700;font-size:14px}
+.route-arrow{color:var(--accent);font-size:16px}
+.order-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+.meta-item{font-size:12px;color:var(--muted)}
+.meta-item span{color:var(--text);font-weight:600}
+.order-price{font-size:18px;font-weight:900;color:var(--accent)}
+.order-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;flex-wrap:wrap}
+
+/* ===================== EXPANDED ORDER ===================== */
+.order-expanded{
+  background:rgba(38,208,206,.06);border:1px solid rgba(38,208,206,.25);
+  border-radius:12px;padding:14px;margin-top:10px;
+}
+.contact-info{
+  display:flex;align-items:center;gap:8px;padding:10px 14px;
+  background:rgba(0,0,0,.25);border-radius:10px;border:1px solid var(--line);
+  font-family:monospace;font-size:14px;font-weight:700;margin-bottom:10px;
+}
+
+/* ===================== PROFILE ===================== */
+.profile-header{
+  background:linear-gradient(135deg,rgba(38,208,206,.14),rgba(108,92,231,.12));
+  border:1px solid rgba(38,208,206,.25);border-radius:var(--radius);
+  padding:24px;margin-bottom:20px;
+}
+.profile-avatar{
+  width:64px;height:64px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;font-weight:900;margin-bottom:12px;
+}
+.profile-name{font-size:22px;font-weight:900;margin-bottom:4px}
+.profile-role{font-size:13px;color:var(--accent);font-weight:700;margin-bottom:12px}
+.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat-box{
+  text-align:center;padding:12px;border-radius:12px;
+  background:rgba(0,0,0,.2);border:1px solid var(--line);
+}
+.stat-val{font-size:20px;font-weight:900;color:var(--accent)}
+.stat-label{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* ===================== DRIVER OFFER FORM ===================== */
+.offer-form{padding:20px;background:rgba(0,0,0,.2);border-radius:var(--radius);border:1px solid var(--line)}
+
+/* ===================== NOTIFICATION ===================== */
+.notif-banner{
+  position:fixed;top:72px;right:20px;z-index:999;width:320px;
+  background:linear-gradient(135deg,rgba(0,203,169,.18),rgba(38,208,206,.12));
+  border:1px solid rgba(0,203,169,.4);border-radius:var(--radius);
+  padding:16px 18px;box-shadow:var(--shadow);
+  animation:slideIn .3s ease;
+}
+.notif-banner.hidden{display:none}
+@keyframes slideIn{from{transform:translateX(350px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes slideOut{from{transform:translateX(0);opacity:1}to{transform:translateX(350px);opacity:0}}
+.notif-title{font-size:13px;font-weight:900;color:var(--green);margin-bottom:4px}
+.notif-body{font-size:13px;color:var(--text)}
+.notif-close{position:absolute;top:10px;right:12px;cursor:pointer;font-size:16px;color:var(--muted);line-height:1}
+
+/* ===================== CONFIRMATION POPUP ===================== */
+.popup-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+}
+.popup-box{
+  background:var(--surface);border:1px solid var(--line);border-radius:22px;
+  padding:28px;max-width:440px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,.7);
+  animation:zoomIn .2s ease;
+}
+@keyframes zoomIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.popup-title{font-size:18px;font-weight:900;margin-bottom:8px}
+.popup-body{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px}
+.popup-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+
+/* ===================== EMPTY STATE ===================== */
+.empty-state{text-align:center;padding:48px 24px}
+.empty-icon{font-size:48px;margin-bottom:12px}
+.empty-title{font-size:16px;font-weight:700;margin-bottom:6px}
+.empty-sub{font-size:13px;color:var(--muted)}
+
+/* ===================== LIST ===================== */
+.list-item{
+  padding:12px 16px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.list-item:last-child{border-bottom:none}
+
+/* ===================== TOAST ===================== */
+#toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  background:rgba(0,203,169,.18);border:1px solid rgba(0,203,169,.4);
+  color:var(--green);padding:12px 24px;border-radius:999px;font-size:14px;font-weight:700;
+  z-index:999;box-shadow:var(--shadow);transition:opacity .3s;pointer-events:none;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media(max-width:700px){
+  .filter-grid{grid-template-columns:1fr 1fr}
+  .grid2{grid-template-columns:1fr}
+  .grid3{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .creds-grid{grid-template-columns:1fr}
+  .profile-stats{grid-template-columns:repeat(3,1fr)}
+  .order-meta{grid-template-columns:1fr}
+  .brand-tag{display:none}
+}
+@media(max-width:480px){
+  .filter-grid{grid-template-columns:1fr}
+  .profile-stats{grid-template-columns:1fr 1fr}
+  .login-title{font-size:26px}
+}
+
+/* ===================== MISC ===================== */
+hr{border:none;border-top:1px solid var(--line);margin:16px 0}
+code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-size:.9em;color:var(--accent)}
+.divider-text{text-align:center;font-size:12px;color:var(--muted);position:relative;margin:16px 0}
+.divider-text::before,.divider-text::after{content:'';position:absolute;top:50%;width:38%;height:1px;background:var(--line)}
+.divider-text::before{left:0} .divider-text::after{right:0}
+
+/* order count bubble */
+.count-bubble{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:20px;height:20px;padding:0 5px;border-radius:999px;
+  background:var(--accent);color:#050c14;font-size:10px;font-weight:900;
+}
+</style>
+</head>
+<body>
+
+<!-- =================== TOAST =================== -->
+<div id="toast" hidden></div>
+
+<!-- =================== NOTIFICATION BANNER =================== -->
+<div id="notifBanner" class="notif-banner hidden">
+  <span class="notif-close" onclick="closeNotif()">✕</span>
+  <div class="notif-title">🔔 Yangi xabar</div>
+  <div class="notif-body" id="notifBody"></div>
+</div>
+
+<!-- =================== POPUP =================== -->
+<div id="popupOverlay" class="popup-overlay" hidden>
+  <div class="popup-box">
+    <div class="popup-title" id="popupTitle"></div>
+    <div class="popup-body" id="popupBody"></div>
+    <div class="popup-actions" id="popupActions"></div>
+  </div>
+</div>
+
+<!-- =================== TOPBAR =================== -->
+<header id="topbar" hidden>
+  <div class="container">
+    <div class="topbar-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-logo">GoGO</span>
+        <span class="brand-tag">Demo</span>
+      </a>
+      <div class="topbar-right">
+        <div class="user-chip" id="userChip">
+          <div class="user-chip-avatar" id="userAvatar"></div>
+          <span id="userChipName"></span>
+        </div>
+        <button class="btn btn--ghost btn--sm" onclick="logout()">Chiqish</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- =================== LOGIN PAGE =================== -->
+<div id="loginPage">
+  <div style="width:100%;max-width:700px">
+
+    <div style="text-align:center;margin-bottom:28px">
+      <div style="font-size:40px;margin-bottom:8px">🚚</div>
+      <div class="login-title"><span>GoGO</span> Demo</div>
+      <div class="login-sub">Quyidagi hisob ma'lumotlaridan birini bosing yoki qo'lda kiriting</div>
+    </div>
+
+    <!-- CREDENTIALS SHOWCASE -->
+    <div class="creds-box">
+      <div class="creds-title">📋 Demo hisob ma'lumotlari — bosib kirish uchun</div>
+      <div class="creds-grid">
+        <div class="cred-item" onclick="fillLogin('driver_malibu','1234')">
+          <div class="cred-type driver">🚗 Haydovchi 1</div>
+          <div class="cred-login">driver_malibu</div>
+          <div class="cred-pass">Parol: 1234</div>
+          <div class="cred-hint">Chevrolet Malibu 2 · 100 000 so'm · ⭐ 4.9</div>
+        </div>
+        <div class="cred-item" onclick="fillLogin('driver_cobalt','1234')">
+          <div class="cred-type driver">🚗 Haydovchi 2</div>
+          <div class="cred-login">driver_cobalt</div>
+          <div class="cred-pass">Parol: 1234</div>
+          <div class="cred-hint">Chevrolet Cobalt · 50 000 so'm · ⭐ 5.0</div>
+        </div>
+        <div class="cred-item" onclick="fillLogin('customer1','1234')">
+          <div class="cred-type customer">👤 Mijoz 1</div>
+          <div class="cred-login">customer1</div>
+          <div class="cred-pass">Parol: 1234</div>
+          <div class="cred-hint">Toshkent</div>
+        </div>
+        <div class="cred-item" onclick="fillLogin('customer2','1234')">
+          <div class="cred-type customer">👤 Mijoz 2</div>
+          <div class="cred-login">customer2</div>
+          <div class="cred-pass">Parol: 1234</div>
+          <div class="cred-hint">Samarqand</div>
+        </div>
+        <div class="cred-item" onclick="fillLogin('customer3','1234')">
+          <div class="cred-type customer">👤 Mijoz 3</div>
+          <div class="cred-login">customer3</div>
+          <div class="cred-pass">Parol: 1234</div>
+          <div class="cred-hint">Buxoro</div>
+        </div>
+        <div class="cred-item" onclick="fillLogin('customer4','1234')">
+          <div class="cred-type customer">👤 Mijoz 4</div>
+          <div class="cred-login">customer4</div>
+          <div class="cred-pass">Parol: 1234</div>
+          <div class="cred-hint">Namangan</div>
+        </div>
+        <div class="cred-item" onclick="fillLogin('customer5','1234')">
+          <div class="cred-type customer">👤 Mijoz 5</div>
+          <div class="cred-login">customer5</div>
+          <div class="cred-pass">Parol: 1234</div>
+          <div class="cred-hint">Andijon</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div class="login-form">
+      <div class="card card--glass">
+        <h3>Tizimga kirish</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Login</label>
+            <input id="loginInput" class="form-control" type="text" placeholder="login kiriting" autocomplete="off"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Parol</label>
+            <input id="passInput" class="form-control" type="password" placeholder="parol kiriting"/>
+          </div>
+          <div id="loginError" class="text-sm red" hidden>❌ Login yoki parol noto'g'ri</div>
+          <button class="btn btn--primary w100" style="padding:13px" onclick="doLogin()">Kirish →</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- =================== APP SHELL =================== -->
+<div id="appShell">
+  <div class="container" style="padding-top:24px">
+
+    <!-- ============ DRIVER APP ============ -->
+    <div id="driverApp" hidden>
+
+      <!-- Tabs -->
+      <div class="tab-bar mb12" id="driverTabs">
+        <button class="tab-btn active" data-tab="driverOrders">🔍 Yuk topish</button>
+        <button class="tab-btn" data-tab="driverActive">⚡ Amaldagi ishlar <span id="driverActiveBubble" class="count-bubble">0</span></button>
+        <button class="tab-btn" data-tab="driverOffer">📢 E'lon berish</button>
+        <button class="tab-btn" data-tab="driverProfile">👤 Profil</button>
+      </div>
+
+      <!-- ===== Tab: YUK TOPISH ===== -->
+      <div class="tab-panel active" id="tab-driverOrders">
+        <div class="sec-head">
+          <div class="sec-title">🔍 Yuk topish</div>
+          <div class="sec-sub">Mavjud barcha buyurtmalarni ko'ring va filtrlang</div>
+        </div>
+
+        <!-- Filter Panel -->
+        <div class="filter-panel">
+          <div class="filter-title">🎛️ Marshrut bo'yicha filtrlash</div>
+          <div class="filter-grid">
+            <div class="form-group">
+              <label class="form-label">1. Qayerdan (Viloyat)</label>
+              <select class="form-control" id="fFromRegion" onchange="updateDistricts('fFromDistrict',this.value)">
+                <option value="">— Tanlang —</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">2. Qaysi tuman</label>
+              <select class="form-control" id="fFromDistrict">
+                <option value="">— Avval viloyat —</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">3. Qayerga (Viloyat)</label>
+              <select class="form-control" id="fToRegion" onchange="updateDistricts('fToDistrict',this.value)">
+                <option value="">— Tanlang —</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">4. Qaysi tuman</label>
+              <select class="form-control" id="fToDistrict">
+                <option value="">— Avval viloyat —</option>
+              </select>
+            </div>
+          </div>
+          <div class="filter-actions">
+            <button class="btn btn--primary btn--sm" onclick="applyFilter()">🔍 Filtrlash</button>
+            <button class="btn btn--ghost btn--sm" onclick="clearFilter()">✕ Tozalash</button>
+          </div>
+        </div>
+
+        <div id="ordersList"></div>
+      </div>
+
+      <!-- ===== Tab: AMALDAGI ISHLAR ===== -->
+      <div class="tab-panel" id="tab-driverActive">
+        <div class="sec-head">
+          <div class="sec-title">⚡ Amaldagi ishlar</div>
+          <div class="sec-sub">Qabul qilingan va davom etayotgan buyurtmalar</div>
+        </div>
+        <div id="activeOrdersList"></div>
+      </div>
+
+      <!-- ===== Tab: E'LON BERISH ===== -->
+      <div class="tab-panel" id="tab-driverOffer">
+        <div class="sec-head">
+          <div class="sec-title">📢 Marshrut e'loni berish</div>
+          <div class="sec-sub">Siz ketayotgan yo'nalishni e'lon qiling — mijozlar siz bilan bog'lansin</div>
+        </div>
+        <div class="offer-form">
+          <div class="form-grid">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Qayerdan (Viloyat)</label>
+                <select class="form-control" id="ofFromRegion" onchange="updateDistricts('ofFromDistrict',this.value)">
+                  <option value="">— Tanlang —</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tuman</label>
+                <select class="form-control" id="ofFromDistrict">
+                  <option value="">— Avval viloyat —</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Qayerga (Viloyat)</label>
+                <select class="form-control" id="ofToRegion" onchange="updateDistricts('ofToDistrict',this.value)">
+                  <option value="">— Tanlang —</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tuman</label>
+                <select class="form-control" id="ofToDistrict">
+                  <option value="">— Avval viloyat —</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Yuk turi (qabul qilaman)</label>
+              <input class="form-control" id="ofCargoType" type="text" placeholder="Masalan: kichik qutili yuk, hujjatlar, kiyim"/>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Sana</label>
+                <input class="form-control" id="ofDate" type="date"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Vaqt</label>
+                <input class="form-control" id="ofTime" type="time" value="09:00"/>
+              </div>
+            </div>
+            <button class="btn btn--primary" onclick="postDriverOffer()">📢 E'lon berish</button>
+          </div>
+        </div>
+
+        <div style="margin-top:28px">
+          <div class="sec-title" style="font-size:17px;margin-bottom:12px">📋 Mening e'lonlarim</div>
+          <div id="myOffersList"></div>
+        </div>
+      </div>
+
+      <!-- ===== Tab: PROFIL ===== -->
+      <div class="tab-panel" id="tab-driverProfile">
+        <div class="sec-head">
+          <div class="sec-title">👤 Haydovchi Profili</div>
+        </div>
+        <div class="profile-header">
+          <div class="profile-avatar avatar-driver" id="driverAvatarBig"></div>
+          <div class="profile-name" id="driverProfileName"></div>
+          <div class="profile-role" id="driverProfileRole"></div>
+          <div class="profile-stats">
+            <div class="stat-box">
+              <div class="stat-val" id="driverStatBalance"></div>
+              <div class="stat-label">💰 Balans</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-val" id="driverStatRating"></div>
+              <div class="stat-label">⭐ Reyting</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-val" id="driverStatReviews"></div>
+              <div class="stat-label">📝 Sharhlar</div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:14px">
+          <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:8px">🚗 Avtomobil ma'lumotlari</div>
+          <div id="driverCarInfo" style="font-size:14px;color:var(--muted);line-height:1.7"></div>
+        </div>
+        <div class="card card--accent">
+          <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:8px">ℹ️ Demo ma'lumot</div>
+          <div id="driverDemoInfo" style="font-size:13px;color:var(--muted);line-height:1.7"></div>
+        </div>
+      </div>
+
+    </div><!-- /driverApp -->
+
+    <!-- ============ CUSTOMER APP ============ -->
+    <div id="customerApp" hidden>
+
+      <!-- Tabs -->
+      <div class="tab-bar mb12" id="customerTabs">
+        <button class="tab-btn active" data-tab="custOrder">📦 Buyurtma berish</button>
+        <button class="tab-btn" data-tab="custMyOrders">📋 Mening buyurtmalarim <span id="custMyBubble" class="count-bubble">0</span></button>
+        <button class="tab-btn" data-tab="custDrivers">🚗 Haydovchi e'lonlari</button>
+        <button class="tab-btn" data-tab="custNotifs">🔔 Bildirishnomalar <span id="custNotifBubble" class="count-bubble" style="background:var(--red)">0</span></button>
+        <button class="tab-btn" data-tab="custProfile">👤 Profil</button>
+      </div>
+
+      <!-- ===== Tab: BUYURTMA BERISH ===== -->
+      <div class="tab-panel active" id="tab-custOrder">
+        <div class="sec-head">
+          <div class="sec-title">📦 Yangi buyurtma berish</div>
+          <div class="sec-sub">Yuk ma'lumotlarini kiriting — biz mos haydovchini topamiz</div>
+        </div>
+        <div class="card card--glass" style="max-width:680px">
+          <div class="form-grid">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Qayerdan (Viloyat)</label>
+                <select class="form-control" id="coFromRegion" onchange="updateDistricts('coFromDistrict',this.value)">
+                  <option value="">— Tanlang —</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tuman</label>
+                <select class="form-control" id="coFromDistrict">
+                  <option value="">— Avval viloyat —</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Qayerga (Viloyat)</label>
+                <select class="form-control" id="coToRegion" onchange="updateDistricts('coToDistrict',this.value)">
+                  <option value="">— Tanlang —</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tuman</label>
+                <select class="form-control" id="coToDistrict">
+                  <option value="">— Avval viloyat —</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Yuk tavsifi</label>
+              <input class="form-control" id="coDesc" type="text" placeholder="Masalan: 5 kg oziq-ovqat mahsulotlari"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Og'irligi (kg)</label>
+              <input class="form-control" id="coWeight" type="number" min="0.5" max="100" placeholder="5" value="5"/>
+            </div>
+            <div class="card card--yellow" id="pricePreview" hidden>
+              <div style="font-size:12px;color:var(--yellow);font-weight:700;margin-bottom:4px">💰 Taxminiy narx</div>
+              <div style="font-size:24px;font-weight:900" id="priceVal"></div>
+              <div style="font-size:11px;color:var(--muted);margin-top:4px">Masofaga va og'irlikka qarab hisoblanadi</div>
+            </div>
+            <button class="btn btn--ghost btn--sm" style="width:fit-content" onclick="calcPrice()">💰 Narxni hisoblash</button>
+            <button class="btn btn--primary" onclick="placeOrder()">✅ Buyurtma berish</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== Tab: MENING BUYURTMALARIM ===== -->
+      <div class="tab-panel" id="tab-custMyOrders">
+        <div class="sec-head">
+          <div class="sec-title">📋 Mening buyurtmalarim</div>
+          <div class="sec-sub">Joriy va o'tgan buyurtmalar</div>
+        </div>
+        <div id="custMyOrdersList"></div>
+      </div>
+
+      <!-- ===== Tab: HAYDOVCHI E'LONLARI ===== -->
+      <div class="tab-panel" id="tab-custDrivers">
+        <div class="sec-head">
+          <div class="sec-title">🚗 Haydovchilar e'lonlari</div>
+          <div class="sec-sub">Siz ham haydovchi e'lonidan tanlashingiz mumkin</div>
+        </div>
+        <div id="custDriverOffersList"></div>
+      </div>
+
+      <!-- ===== Tab: BILDIRISHNOMALAR ===== -->
+      <div class="tab-panel" id="tab-custNotifs">
+        <div class="sec-head">
+          <div class="sec-title">🔔 Bildirishnomalar</div>
+          <div class="sec-sub">Haydovchining tasdiqlash so'rovlari</div>
+        </div>
+        <div id="custNotifsList"></div>
+      </div>
+
+      <!-- ===== Tab: PROFIL ===== -->
+      <div class="tab-panel" id="tab-custProfile">
+        <div class="sec-head">
+          <div class="sec-title">👤 Profil</div>
+        </div>
+        <div class="profile-header">
+          <div class="profile-avatar avatar-customer" id="custAvatarBig"></div>
+          <div class="profile-name" id="custProfileName"></div>
+          <div class="profile-role" style="color:var(--yellow);font-weight:700;margin-bottom:12px">Mijoz</div>
+          <div class="profile-stats">
+            <div class="stat-box">
+              <div class="stat-val" id="custStatOrders"></div>
+              <div class="stat-label">📦 Jami buyurtmalar</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-val" id="custStatActive"></div>
+              <div class="stat-label">⚡ Faol</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-val" id="custStatDone"></div>
+              <div class="stat-label">✅ Yakunlangan</div>
+            </div>
+          </div>
+        </div>
+        <div class="card card--accent">
+          <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px">ℹ️ Demo profil</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.7" id="custDemoInfo"></div>
+        </div>
+      </div>
+
+    </div><!-- /customerApp -->
+
+  </div>
+</div><!-- /appShell -->
+
+<script>
+/* ============================================================
+   GOGOAPP — FULL MOCK MVP
+   ============================================================ */
+
+// ==================== DATA: REGIONS ====================
+const REGIONS = {
+  "Toshkent": ["Yunusobod","Chilonzor","Mirobod","Shayxontohur","Olmosoy","Bektemir","Yakkasaroy","Mirzo Ulug'bek","Sergeli","Uchtepa","Qibray","Zangiota","Bo'stonliq"],
+  "Samarqand": ["Samarqand sh","Urgut","Kattaqo'rg'on","Ishtixon","Bulung'ur","Nurobod","Oqdaryo","Pastdarg'om","Paxtachi","Payariq","Qo'shrabot","Toyloq"],
+  "Buxoro": ["Buxoro sh","G'ijduvon","Jondor","Kogon","Qorako'l","Qorovulbozor","Olot","Peshku","Romitan","Shofirkon","Vobkent"],
+  "Namangan": ["Namangan sh","Chartepa","Chust","Kosonsoy","Mingbuloq","Norin","Pop","To'raqo'rg'on","Uchqo'rg'on","Yangiqo'rg'on"],
+  "Andijon": ["Andijon sh","Asaka","Baliqchi","Bo'ston","Buloqboshi","Jalaquduq","Xo'jaobod","Izboskan","Qo'rg'ontepa","Marhamat","Oltinko'l","Paxtaobod","Shahrixon","Ulug'nor"],
+  "Farg'ona": ["Farg'ona sh","Quva","Marg'ilon","Qo'qon","Yaypan","Oltiariq","Yozyovon","Beshariq","Dang'ara","Furqat","Rishton","Toshloq","Uchko'prik"],
+  "Qashqadaryo": ["Qarshi sh","Shahrisabz","G'uzor","Kamashi","Kasbi","Kitob","Koson","Mirishkor","Muborak","Nishon","Chiroqchi","Yakkabog'"],
+  "Surxondaryo": ["Termiz sh","Bandixon","Denov","Jarqo'rg'on","Qiziriq","Qumqo'rg'on","Muzrabot","Oltinsoy","Sariosiyo","Sherobod","Sho'rchi","Uzun"],
+  "Xorazm": ["Urganch sh","Xiva","Bog'ot","Gurlan","Hazorasp","Qo'shko'pir","Pitnak","Shovot","Tuproqqal'a","Yangiariq","Yangibozor"],
+  "Qoraqalpog'iston": ["Nukus","Beruniy","Chimboy","Ellikkala","Kegeyli","Mo'ynoq","Nukus tumani","Qanliko'l","Qo'ng'irot","Shumanay","Taxtako'pir","To'rtko'l","Xo'jayli"],
+  "Jizzax": ["Jizzax sh","Arnasoy","Baxmal","Do'stlik","G'allaorol","Sharof Rashidov","Forish","Mirzacho'l","Paxtakor","Yangiobod","Zafarobod","Zomin"],
+  "Navoiy": ["Navoiy sh","Karmana","Konimex","Navbahor","Nurota","Qiziltepa","Tomdi","Uchquduq","Xatirchi"],
+  "Sirdaryo": ["Guliston","Boyovut","Mirzaobod","Oqoltin","Sardoba","Sayxunobod","Sirdaryo","Xovos"]
+};
+
+const regionNames = Object.keys(REGIONS);
+
+// ==================== DATA: USERS ====================
+const USERS = {
+  driver_malibu: {
+    type:'driver', id:'driver_malibu',
+    name:'Alisher Karimov', login:'driver_malibu',
+    car:'Chevrolet Malibu 2 (2021)', plate:'01 A 123 BB',
+    balance:45000, rating:4.9, reviews:10,
+    emoji:'🚗',
+    demoInfo:'2 yillik tajribali haydovchi. Toshkentdan viloyatlarga va aksincha muntazam qatnaydi. Ishonchli va vaqtida yetkazib beradi. GoGO platformasining dastlabki haydovchilaridan biri.'
+  },
+  driver_cobalt: {
+    type:'driver', id:'driver_cobalt',
+    name:'Bobur Toshmatov', login:'driver_cobalt',
+    car:'Chevrolet Cobalt (2022)', plate:'30 B 456 CC',
+    balance:32000, rating:5.0, reviews:10,
+    emoji:'🚙',
+    demoInfo:'Samarqand–Toshkent yo\'nalishida muntazam qatnaydi. Mijozlarga nisbatan ehtiyotkor va odobli munosabat. 5.0 reyting bilan platformaning eng yaxshi haydovchisi!'
+  },
+  customer1: { type:'customer', id:'customer1', name:'Dilnoza Yusupova', city:'Toshkent', emoji:'👩', demoInfo:'Toshkentlik mijoz. Viloyatdagi oila a\'zolariga muntazam mahsulot yuborib turadi. GoGO orqali xavfsiz va arzon yetkazib berish imkoniyatidan foydalanadi.' },
+  customer2: { type:'customer', id:'customer2', name:'Sardor Azimov', city:'Samarqand', emoji:'👨', demoInfo:'Samarqandlik talaba. Toshkentdan kitob va buyumlar oldirib turadi. GoGO unga tanish-bilishisiz ham ishonchli yetkazib berish imkonini beradi.' },
+  customer3: { type:'customer', id:'customer3', name:'Malika Rahimova', city:'Buxoro', emoji:'👩', demoInfo:'Buxorolik kichik biznes egasi. Toshkentdan tovarlar olib keladi. GoGO logistics xarajatlarini kamaytirishga yordam beradi.' },
+  customer4: { type:'customer', id:'customer4', name:'Jasur Xoliqov', city:'Namangan', emoji:'👨', demoInfo:'Namanganlik tadbirkor. Ferghana vodiysi va Toshkent o\'rtasida yuk yuboradi. GoGO orqali tezkor va arzon yetkazib berish.' },
+  customer5: { type:'customer', id:'customer5', name:'Nilufar Ergasheva', city:'Andijon', emoji:'👩', demoInfo:'Andijonlik uy bekor. Farzandlariga Toshkentdan mahsulotlar yubortiradi. GoGO platformasini oson va qulay deb baholaydi.' }
+};
+
+// ==================== DATA: 50 ORDERS ====================
+const CARGO_TYPES = [
+  'Oziq-ovqat mahsulotlari','Kiyim-kechak','Elektron jihozlar','Hujjatlar va xatlar',
+  'Dori-darmon','Kitob va o\'quv materiallari','Uy-ro\'zg\'or buyumlari','Sovg\'alar va hadyalar',
+  'Mevalar va sabzavotlar','Qurilish materiallari','Kosmetika va parfyumeriya','Poyabzal'
+];
+const CONTACTS = [
+  '+998 90 123 45 67','+998 91 234 56 78','+998 93 345 67 89',
+  '@gogo_user1','@gogo_user2','@samarqand_yuk','@toshkent_jo_natma',
+  '+998 94 456 78 90','+998 97 567 89 01','+998 99 678 90 12'
+];
+const STATUS = { available:'available', active:'active', done:'done' };
+
+function randInt(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function pickRandom(arr){return arr[randInt(0,arr.length-1)]}
+
+function generateOrders(){
+  const orders = [];
+  const routePairs = [
+    ['Toshkent','Samarqand'],['Samarqand','Toshkent'],
+    ['Toshkent','Buxoro'],['Buxoro','Toshkent'],
+    ['Toshkent','Namangan'],['Namangan','Toshkent'],
+    ['Toshkent','Andijon'],['Andijon','Toshkent'],
+    ['Toshkent','Farg\'ona'],['Farg\'ona','Toshkent'],
+    ['Toshkent','Qashqadaryo'],['Qashqadaryo','Toshkent'],
+    ['Toshkent','Surxondaryo'],['Surxondaryo','Toshkent'],
+    ['Toshkent','Xorazm'],['Samarqand','Buxoro'],
+    ['Buxoro','Samarqand'],['Namangan','Andijon'],
+    ['Andijon','Farg\'ona'],['Farg\'ona','Namangan'],
+    ['Samarqand','Qashqadaryo'],['Buxoro','Navoiy'],
+    ['Navoiy','Buxoro'],['Toshkent','Jizzax'],
+    ['Jizzax','Toshkent'],['Toshkent','Sirdaryo'],
+    ['Surxondaryo','Qashqadaryo'],['Xorazm','Qoraqalpog\'iston'],
+    ['Farg\'ona','Samarqand'],['Navoiy','Samarqand']
+  ];
+  for(let i=0;i<50;i++){
+    const [fromR,toR] = routePairs[i % routePairs.length];
+    const fromD = pickRandom(REGIONS[fromR]);
+    const toD   = pickRandom(REGIONS[toR]);
+    const weight = randInt(1,10);
+    const price = randInt(10, 50) * 1000;
+    const custKey = 'customer' + randInt(1,5);
+    orders.push({
+      id: 'ord_'+i,
+      fromRegion: fromR, fromDistrict: fromD,
+      toRegion: toR, toDistrict: toD,
+      cargo: pickRandom(CARGO_TYPES),
+      weight,
+      price,
+      contact: pickRandom(CONTACTS),
+      customerId: custKey,
+      status: STATUS.available,
+      driverId: null,
+      postedAt: new Date(Date.now() - randInt(0,48)*3600000).toISOString()
+    });
+  }
+  return orders;
+}
+
+// ==================== DRIVER OFFERS ====================
+const INITIAL_DRIVER_OFFERS = [
+  { id:'off_1', driverId:'driver_malibu', driverName:'Alisher Karimov', car:'Malibu 2',
+    fromRegion:'Toshkent', fromDistrict:"Yunusobod", toRegion:'Samarqand', toDistrict:'Samarqand sh',
+    cargoType:'Har qanday kichik yuk', date:'2026-02-12', time:'08:00' },
+  { id:'off_2', driverId:'driver_cobalt', driverName:'Bobur Toshmatov', car:'Cobalt',
+    fromRegion:'Samarqand', fromDistrict:'Samarqand sh', toRegion:'Toshkent', toDistrict:"Chilonzor",
+    cargoType:'Kiyim, oziq-ovqat, hujjatlar', date:'2026-02-13', time:'07:30' }
+];
+
+// ==================== STATE ====================
+let state = {};
+
+function loadState(){
+  const raw = localStorage.getItem('gogoState');
+  if(raw){
+    state = JSON.parse(raw);
+  } else {
+    const orders = generateOrders();
+    // Give each driver 2 active orders already
+    orders[0].status = STATUS.active; orders[0].driverId = 'driver_malibu';
+    orders[1].status = STATUS.active; orders[1].driverId = 'driver_malibu';
+    orders[2].status = STATUS.active; orders[2].driverId = 'driver_cobalt';
+    orders[3].status = STATUS.active; orders[3].driverId = 'driver_cobalt';
+
+    state = {
+      currentUser: null,
+      users: JSON.parse(JSON.stringify(USERS)),
+      orders,
+      driverOffers: [...INITIAL_DRIVER_OFFERS],
+      notifications: {} // { customerId: [{id, msg, orderId, driverId, confirmed}] }
+    };
+    saveState();
+  }
+}
+
+function saveState(){
+  localStorage.setItem('gogoState', JSON.stringify(state));
+}
+
+function resetState(){
+  localStorage.removeItem('gogoState');
+  loadState();
+  toast('Demo ma\'lumotlar tiklandi!');
+}
+
+// ==================== AUTH ====================
+function fillLogin(login, pass){
+  document.getElementById('loginInput').value = login;
+  document.getElementById('passInput').value = pass;
+  document.getElementById('loginInput').focus();
+}
+
+function doLogin(){
+  const login = document.getElementById('loginInput').value.trim();
+  const pass  = document.getElementById('passInput').value.trim();
+  const user  = state.users[login];
+  if(!user || pass !== '1234'){
+    document.getElementById('loginError').hidden = false;
+    return;
+  }
+  document.getElementById('loginError').hidden = true;
+  state.currentUser = login;
+  saveState();
+  showApp();
+}
+
+function logout(){
+  state.currentUser = null;
+  saveState();
+  document.getElementById('appShell').style.display='none';
+  document.getElementById('loginPage').style.display='flex';
+  document.getElementById('topbar').hidden = true;
+}
+
+function showApp(){
+  document.getElementById('loginPage').style.display='none';
+  document.getElementById('appShell').style.display='block';
+  document.getElementById('topbar').hidden = false;
+
+  const user = state.users[state.currentUser];
+  const isDriver = user.type === 'driver';
+
+  // Topbar user chip
+  const avatarEl = document.getElementById('userAvatar');
+  avatarEl.textContent = user.emoji;
+  avatarEl.className = 'user-chip-avatar ' + (isDriver ? 'avatar-driver' : 'avatar-customer');
+  document.getElementById('userChipName').textContent = user.name;
+
+  if(isDriver){
+    document.getElementById('driverApp').hidden = false;
+    document.getElementById('customerApp').hidden = true;
+    setupDriverApp();
+    // Login'dan so'ng avtomatik profilga o'tkazamiz
+    activateTab('driverTabs','driverProfile');
+  } else {
+    document.getElementById('customerApp').hidden = false;
+    document.getElementById('driverApp').hidden = true;
+    setupCustomerApp();
+    // Login'dan so'ng avtomatik profilga o'tkazamiz
+    activateTab('customerTabs','custProfile');
+  }
+}
+
+// ==================== POPULATE SELECTS ====================
+function populateRegions(selectId){
+  const sel = document.getElementById(selectId);
+  if(!sel) return;
+  sel.innerHTML = '<option value="">— Tanlang —</option>';
+  regionNames.forEach(r => {
+    const o = document.createElement('option');
+    o.value = r; o.textContent = r;
+    sel.appendChild(o);
+  });
+}
+
+function updateDistricts(selectId, region){
+  const sel = document.getElementById(selectId);
+  if(!sel) return;
+  sel.innerHTML = '<option value="">— Tanlang —</option>';
+  if(!region || !REGIONS[region]) return;
+  REGIONS[region].forEach(d => {
+    const o = document.createElement('option');
+    o.value = d; o.textContent = d;
+    sel.appendChild(o);
+  });
+}
+
+function populateAllSelects(){
+  ['fFromRegion','fToRegion','ofFromRegion','ofToRegion','coFromRegion','coToRegion'].forEach(populateRegions);
+}
+
+// ==================== TABS ====================
+
+function activateTab(containerId, tabId){
+  const container = document.getElementById(containerId);
+  if(!container) return;
+  // buttons
+  container.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  const btn = container.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+  if(btn) btn.classList.add('active');
+  // panels (only those related to tab-*)
+  document.querySelectorAll('.tab-panel').forEach(p=>{
+    if(p.id === 'tab-'+tabId) p.classList.add('active');
+    else p.classList.remove('active');
+  });
+  // render hooks
+  if(tabId==='driverOrders') renderOrders();
+  if(tabId==='driverActive') renderActiveOrders();
+  if(tabId==='driverOffer') renderMyOffers();
+  if(tabId==='driverProfile') renderDriverProfile();
+  if(tabId==='custOrder') renderPricePreview();
+  if(tabId==='custMyOrders') renderCustMyOrders();
+  if(tabId==='custDrivers') renderCustDriverOffers();
+  if(tabId==='custNotifs') renderCustNotifs();
+  if(tabId==='custProfile') renderCustProfile();
+}
+
+function setupTabs(containerId, tabClass){
+  document.querySelectorAll(`#${containerId} .tab-btn`).forEach(btn => {
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll(`#${containerId} .tab-btn`).forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const tabId = btn.dataset.tab;
+      document.querySelectorAll('.tab-panel').forEach(p=>{
+        if(p.id === 'tab-'+tabId) p.classList.add('active');
+        else p.classList.remove('active');
+      });
+      if(tabId==='driverOrders') renderOrders();
+      if(tabId==='driverActive') renderActiveOrders();
+      if(tabId==='driverOffer') renderMyOffers();
+      if(tabId==='driverProfile') renderDriverProfile();
+      if(tabId==='custOrder') renderPricePreview();
+      if(tabId==='custMyOrders') renderCustMyOrders();
+      if(tabId==='custDrivers') renderCustDriverOffers();
+      if(tabId==='custNotifs') renderCustNotifs();
+      if(tabId==='custProfile') renderCustProfile();
+    });
+  });
+}
+
+// ==================== DRIVER APP ====================
+function setupDriverApp(){
+  setupTabs('driverTabs');
+  populateAllSelects();
+  const today = new Date().toISOString().split('T')[0];
+  if(document.getElementById('ofDate')) document.getElementById('ofDate').value = today;
+  renderOrders();
+  renderDriverProfile();
+  updateDriverBubbles();
+}
+
+function updateDriverBubbles(){
+  const uid = state.currentUser;
+  const active = state.orders.filter(o=>o.driverId===uid && o.status===STATUS.active);
+  const el = document.getElementById('driverActiveBubble');
+  if(el) el.textContent = active.length;
+}
+
+function applyFilter(){
+  renderOrders(
+    document.getElementById('fFromRegion').value,
+    document.getElementById('fFromDistrict').value,
+    document.getElementById('fToRegion').value,
+    document.getElementById('fToDistrict').value
+  );
+}
+
+function clearFilter(){
+  ['fFromRegion','fFromDistrict','fToRegion','fToDistrict'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.value='';
+  });
+  renderOrders();
+}
+
+function renderOrders(fromR='',fromD='',toR='',toD=''){
+  const container = document.getElementById('ordersList');
+  if(!container) return;
+
+  let orders = state.orders.filter(o=>o.status===STATUS.available);
+
+  if(fromR) orders = orders.filter(o=>o.fromRegion===fromR);
+  if(fromD) orders = orders.filter(o=>o.fromDistrict===fromD);
+  if(toR)   orders = orders.filter(o=>o.toRegion===toR);
+  if(toD)   orders = orders.filter(o=>o.toDistrict===toD);
+
+  if(!orders.length){
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">Buyurtma topilmadi</div><div class="empty-sub">Filtrni o'zgartiring yoki tozalang</div></div>`;
+    return;
+  }
+
+  container.innerHTML = `<div style="font-size:13px;color:var(--muted);margin-bottom:12px">Topildi: <strong style="color:var(--accent)">${orders.length}</strong> ta buyurtma</div>`;
+  orders.forEach(ord=>{
+    const div = document.createElement('div');
+    div.className = 'order-card';
+    div.id = 'ocard_'+ord.id;
+    div.innerHTML = buildOrderCardHTML(ord, 'driver');
+    container.appendChild(div);
+  });
+}
+
+function buildOrderCardHTML(ord, role){
+  const timeAgo = timeSince(ord.postedAt);
+  return `
+    <div class="order-route">
+      <span class="route-from">📍 ${ord.fromRegion} · ${ord.fromDistrict}</span>
+      <span class="route-arrow">→</span>
+      <span class="route-to">🏁 ${ord.toRegion} · ${ord.toDistrict}</span>
+    </div>
+    <div class="order-meta">
+      <div class="meta-item">🧳 Yuk: <span>${ord.cargo}</span></div>
+      <div class="meta-item">⚖️ Og'irlik: <span>${ord.weight} kg</span></div>
+      <div class="meta-item">🕐 Joylangan: <span>${timeAgo}</span></div>
+      <div class="meta-item">📋 ID: <span class="text-xs muted">${ord.id}</span></div>
+    </div>
+    <div class="order-footer">
+      <span class="order-price">${ord.price.toLocaleString('uz-UZ')} so'm</span>
+      ${role==='driver' && ord.status===STATUS.available
+        ? `<button class="btn btn--ghost btn--sm" onclick="toggleOrderExpand('${ord.id}')">Ko'rish ↓</button>`
+        : ord.status===STATUS.active
+          ? `<span class="badge badge--green">⚡ Faol</span>`
+          : `<span class="badge badge--blue">✅ Yakunlangan</span>`
+      }
+    </div>
+    <div id="expand_${ord.id}" hidden>
+      <div class="order-expanded">
+        <div class="contact-info">
+          <span>📞</span>
+          <span id="contactVal_${ord.id}">${ord.contact}</span>
+        </div>
+        <button class="btn btn--primary btn--sm" onclick="acceptOrder('${ord.id}')">
+          ✅ Buyurtmani qabul qildim
+        </button>
+      </div>
+    </div>`;
+}
+
+function toggleOrderExpand(ordId){
+  const el = document.getElementById('expand_'+ordId);
+  if(!el) return;
+  el.hidden = !el.hidden;
+}
+
+function acceptOrder(ordId){
+  const uid = state.currentUser;
+  const user = state.users[uid];
+  const ord = state.orders.find(o=>o.id===ordId);
+  if(!ord || ord.status !== STATUS.available) return;
+
+  const commission = Math.round(ord.price * 0.1);
+  const newBalance = user.balance - commission;
+
+  showPopup(
+    '✅ Buyurtmani qabul qilish',
+    `<strong>${ord.fromRegion} → ${ord.toRegion}</strong><br/>${ord.cargo} · ${ord.weight} kg<br/><br/>
+     Buyurtma narxi: <strong>${ord.price.toLocaleString('uz-UZ')} so'm</strong><br/>
+     Komissiya (10%): <strong style="color:var(--red)">−${commission.toLocaleString('uz-UZ')} so'm</strong><br/>
+     Yangi balans: <strong style="color:var(--green)">${newBalance.toLocaleString('uz-UZ')} so'm</strong>`,
+    [
+      { label:'Bekor qilish', cls:'btn--ghost', action:'closePopup()' },
+      { label:'✅ Tasdiqlash', cls:'btn--primary', action:`confirmAccept('${ordId}')` }
+    ]
+  );
+}
+
+function confirmAccept(ordId){
+  closePopup();
+  const uid = state.currentUser;
+  const user = state.users[uid];
+  const ord = state.orders.find(o=>o.id===ordId);
+  if(!ord) return;
+
+  const commission = Math.round(ord.price * 0.1);
+  user.balance -= commission;
+  ord.status = STATUS.active;
+  ord.driverId = uid;
+  saveState();
+
+  // Notify customer
+  if(!state.notifications[ord.customerId]) state.notifications[ord.customerId] = [];
+  state.notifications[ord.customerId].push({
+    id:'notif_'+Date.now(),
+    msg:`Haydovchi ${user.name} (${user.car}) sizning buyurtmangizni qabul qilmoqchi: ${ord.fromRegion} → ${ord.toRegion}.`,
+    orderId: ord.id,
+    driverId: uid,
+    confirmed: false,
+    at: new Date().toISOString()
+  });
+  saveState();
+
+  toast(`✅ Buyurtma qabul qilindi! −${commission.toLocaleString('uz-UZ')} so'm komissiya`);
+  updateDriverBubbles();
+
+  // Remove card from list
+  const card = document.getElementById('ocard_'+ordId);
+  if(card) card.remove();
+
+  renderDriverProfile();
+}
+
+function renderActiveOrders(){
+  const uid = state.currentUser;
+  const orders = state.orders.filter(o=>o.driverId===uid && o.status===STATUS.active);
+  const container = document.getElementById('activeOrdersList');
+  if(!container) return;
+
+  if(!orders.length){
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">⚡</div><div class="empty-title">Amaldagi ish yo'q</div><div class="empty-sub">Yuk topish bo'limidan buyurtma qabul qiling</div></div>`;
+    return;
+  }
+  container.innerHTML = '';
+  orders.forEach(ord=>{
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.style.marginBottom = '14px';
+    div.innerHTML = `
+      <div class="order-route">
+        <span class="route-from">📍 ${ord.fromRegion} · ${ord.fromDistrict}</span>
+        <span class="route-arrow">→</span>
+        <span class="route-to">🏁 ${ord.toRegion} · ${ord.toDistrict}</span>
+        <span class="badge badge--green">⚡ Faol</span>
+      </div>
+      <div class="order-meta">
+        <div class="meta-item">🧳 <span>${ord.cargo}</span></div>
+        <div class="meta-item">⚖️ <span>${ord.weight} kg</span></div>
+        <div class="meta-item">💰 <span>${ord.price.toLocaleString('uz-UZ')} so'm</span></div>
+        <div class="meta-item">📞 <span>${ord.contact}</span></div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn--green btn--sm" onclick="completeOrder('${ord.id}')">✅ Yakunlash</button>
+      </div>`;
+    container.appendChild(div);
+  });
+}
+
+function completeOrder(ordId){
+  const ord = state.orders.find(o=>o.id===ordId);
+  if(!ord) return;
+  showPopup('✅ Buyurtmani yakunlash',
+    `${ord.fromRegion} → ${ord.toRegion} buyurtmasini yakunlashni tasdiqlaysizmi?`,
+    [
+      { label:'Bekor qilish', cls:'btn--ghost', action:'closePopup()' },
+      { label:'✅ Ha, yakunlash', cls:'btn--primary', action:`doComplete('${ordId}')` }
+    ]
+  );
+}
+
+function doComplete(ordId){
+  closePopup();
+  const ord = state.orders.find(o=>o.id===ordId);
+  if(!ord) return;
+  ord.status = STATUS.done;
+  saveState();
+  toast('✅ Buyurtma yakunlandi!');
+  renderActiveOrders();
+  updateDriverBubbles();
+}
+
+function postDriverOffer(){
+  const fromR = document.getElementById('ofFromRegion').value;
+  const fromD = document.getElementById('ofFromDistrict').value;
+  const toR   = document.getElementById('ofToRegion').value;
+  const toD   = document.getElementById('ofToDistrict').value;
+  const cargo = document.getElementById('ofCargoType').value.trim();
+  const date  = document.getElementById('ofDate').value;
+  const time  = document.getElementById('ofTime').value;
+
+  if(!fromR||!toR||!cargo||!date){
+    toast('❌ Barcha maydonlarni to\'ldiring!'); return;
+  }
+
+  const uid = state.currentUser;
+  const user = state.users[uid];
+  state.driverOffers.push({
+    id: 'off_'+Date.now(),
+    driverId: uid,
+    driverName: user.name,
+    car: user.car,
+    fromRegion:fromR, fromDistrict:fromD,
+    toRegion:toR, toDistrict:toD,
+    cargoType:cargo, date, time
+  });
+  saveState();
+  toast('📢 E\'lon joylashtirildi!');
+  renderMyOffers();
+}
+
+function renderMyOffers(){
+  const uid = state.currentUser;
+  const offers = state.driverOffers.filter(o=>o.driverId===uid);
+  const container = document.getElementById('myOffersList');
+  if(!container) return;
+
+  if(!offers.length){
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📢</div><div class="empty-title">E'lonlar yo'q</div><div class="empty-sub">Marshrut e'loni bering — mijozlar siz bilan bog'lanadi</div></div>`;
+    return;
+  }
+  container.innerHTML = '';
+  offers.forEach(off=>{
+    const div = document.createElement('div');
+    div.className = 'card'; div.style.marginBottom='12px';
+    div.innerHTML = `
+      <div class="order-route">
+        <span class="route-from">📍 ${off.fromRegion}${off.fromDistrict?'·'+off.fromDistrict:''}</span>
+        <span class="route-arrow">→</span>
+        <span class="route-to">🏁 ${off.toRegion}${off.toDistrict?'·'+off.toDistrict:''}</span>
+      </div>
+      <div class="order-meta">
+        <div class="meta-item">🧳 <span>${off.cargoType}</span></div>
+        <div class="meta-item">📅 <span>${off.date} ${off.time}</span></div>
+      </div>
+      <div style="margin-top:8px">
+        <button class="btn btn--danger btn--xs" onclick="deleteOffer('${off.id}')">🗑 O'chirish</button>
+      </div>`;
+    container.appendChild(div);
+  });
+}
+
+function deleteOffer(id){
+  state.driverOffers = state.driverOffers.filter(o=>o.id!==id);
+  saveState(); toast('🗑 E\'lon o\'chirildi'); renderMyOffers();
+}
+
+function renderDriverProfile(){
+  const uid = state.currentUser;
+  const user = state.users[uid];
+  if(!user || user.type!=='driver') return;
+
+  const nameEl = document.getElementById('driverProfileName');
+  const roleEl = document.getElementById('driverProfileRole');
+  const balEl  = document.getElementById('driverStatBalance');
+  const ratEl  = document.getElementById('driverStatRating');
+  const revEl  = document.getElementById('driverStatReviews');
+  const carEl  = document.getElementById('driverCarInfo');
+  const demoEl = document.getElementById('driverDemoInfo');
+  const avaEl  = document.getElementById('driverAvatarBig');
+
+  if(avaEl) avaEl.textContent = user.emoji;
+  if(nameEl) nameEl.textContent = user.name;
+  if(roleEl) roleEl.textContent = 'Haydovchi';
+  if(balEl) balEl.textContent = user.balance.toLocaleString('uz-UZ') + " so'm";
+  if(ratEl) ratEl.textContent = '⭐ ' + user.rating;
+  if(revEl) revEl.textContent = user.reviews;
+  if(carEl) carEl.innerHTML = `<b>🚗 Avtomobil:</b> ${user.car}<br><b>🔢 Davlat raqami:</b> ${user.plate}`;
+  if(demoEl) demoEl.textContent = user.demoInfo;
+}
+
+// ==================== CUSTOMER APP ====================
+function setupCustomerApp(){
+  setupTabs('customerTabs');
+  populateAllSelects();
+  renderCustMyOrders();
+  renderCustProfile();
+  updateCustBubbles();
+}
+
+function updateCustBubbles(){
+  const uid = state.currentUser;
+  const myOrders = state.orders.filter(o=>o.customerId===uid);
+  const active = myOrders.filter(o=>o.status===STATUS.active).length;
+
+  const notifs = (state.notifications[uid]||[]).filter(n=>!n.confirmed);
+  const myBub = document.getElementById('custMyBubble');
+  const notifBub = document.getElementById('custNotifBubble');
+  if(myBub) myBub.textContent = active;
+  if(notifBub) notifBub.textContent = notifs.length;
+}
+
+function calcPrice(){
+  const fromR = document.getElementById('coFromRegion').value;
+  const toR   = document.getElementById('coToRegion').value;
+  const weight = parseFloat(document.getElementById('coWeight').value)||1;
+
+  if(!fromR||!toR){toast('Avval viloyatlarni tanlang!');return;}
+  const basePrice = (fromR===toR) ? randInt(10,25) : randInt(20,50);
+  const weightSurcharge = Math.min(weight * 1000, 10000);
+  const price = Math.min(basePrice * 1000 + weightSurcharge, 50000);
+
+  document.getElementById('priceVal').textContent = price.toLocaleString('uz-UZ')+" so'm";
+  document.getElementById('pricePreview').hidden = false;
+}
+
+function renderPricePreview(){ document.getElementById('pricePreview').hidden=true; }
+
+function placeOrder(){
+  const fromR = document.getElementById('coFromRegion').value;
+  const fromD = document.getElementById('coFromDistrict').value;
+  const toR   = document.getElementById('coToRegion').value;
+  const toD   = document.getElementById('coToDistrict').value;
+  const desc  = document.getElementById('coDesc').value.trim();
+  const weight= parseFloat(document.getElementById('coWeight').value)||1;
+
+  if(!fromR||!toR||!desc){
+    toast('❌ Barcha maydonlarni to\'ldiring!'); return;
+  }
+
+  const uid = state.currentUser;
+  const user = state.users[uid];
+  const dist = (fromR===toR) ? 80 : randInt(150,800);
+  const price = Math.round((dist*350+weight*2000)/1000)*1000;
+
+  const ord = {
+    id: 'ord_user_'+Date.now(),
+    fromRegion:fromR, fromDistrict:fromD||fromR,
+    toRegion:toR, toDistrict:toD||toR,
+    cargo:desc, weight, price,
+    contact: '+998 90 ' + randInt(100,999)+' '+randInt(10,99)+' '+randInt(10,99),
+    customerId: uid,
+    status: STATUS.available,
+    driverId: null,
+    postedAt: new Date().toISOString()
+  };
+  state.orders.push(ord);
+  saveState();
+
+  toast('✅ Buyurtma joylashtirildi! Haydovchilar ko\'radi.');
+
+  // Clear form
+  ['coFromRegion','coFromDistrict','coToRegion','coToDistrict'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('coDesc').value='';
+  document.getElementById('coWeight').value='5';
+  document.getElementById('pricePreview').hidden=true;
+
+  updateCustBubbles();
+  renderCustMyOrders();
+}
+
+function renderCustMyOrders(){
+  const uid = state.currentUser;
+  const orders = state.orders.filter(o=>o.customerId===uid);
+  const container = document.getElementById('custMyOrdersList');
+  if(!container) return;
+
+  if(!orders.length){
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📦</div><div class="empty-title">Buyurtma yo'q</div><div class="empty-sub">"Buyurtma berish" bo'limidan yangi buyurtma qo'shing</div></div>`;
+    return;
+  }
+  container.innerHTML = '';
+  orders.forEach(ord=>{
+    const statusBadge = ord.status===STATUS.available
+      ? '<span class="badge badge--yellow">⏳ Kutilmoqda</span>'
+      : ord.status===STATUS.active
+        ? '<span class="badge badge--green">⚡ Haydovchi topildi</span>'
+        : '<span class="badge badge--blue">✅ Yetkazildi</span>';
+
+    const div = document.createElement('div');
+    div.className='card'; div.style.marginBottom='14px';
+    div.innerHTML=`
+      <div class="order-route">
+        <span class="route-from">📍 ${ord.fromRegion} · ${ord.fromDistrict}</span>
+        <span class="route-arrow">→</span>
+        <span class="route-to">🏁 ${ord.toRegion} · ${ord.toDistrict}</span>
+        ${statusBadge}
+      </div>
+      <div class="order-meta">
+        <div class="meta-item">🧳 <span>${ord.cargo}</span></div>
+        <div class="meta-item">⚖️ <span>${ord.weight} kg</span></div>
+        <div class="meta-item">💰 <span>${ord.price.toLocaleString('uz-UZ')} so'm</span></div>
+        ${ord.driverId ? `<div class="meta-item">🚗 Haydovchi: <span>${state.users[ord.driverId]?.name||'?'}</span></div>` : ''}
+      </div>`;
+    container.appendChild(div);
+  });
+}
+
+function renderCustDriverOffers(){
+  const container = document.getElementById('custDriverOffersList');
+  if(!container) return;
+
+  const offers = state.driverOffers;
+  if(!offers.length){
+    container.innerHTML=`<div class="empty-state"><div class="empty-icon">🚗</div><div class="empty-title">Haydovchi e'lonlari yo'q</div></div>`;
+    return;
+  }
+  container.innerHTML='';
+  offers.forEach(off=>{
+    const driver = state.users[off.driverId];
+    const div=document.createElement('div');
+    div.className='card'; div.style.marginBottom='14px';
+    div.innerHTML=`
+      <div class="order-route">
+        <span class="route-from">📍 ${off.fromRegion}${off.fromDistrict?'·'+off.fromDistrict:''}</span>
+        <span class="route-arrow">→</span>
+        <span class="route-to">🏁 ${off.toRegion}${off.toDistrict?'·'+off.toDistrict:''}</span>
+      </div>
+      <div class="order-meta">
+        <div class="meta-item">🧳 Qabul qiladi: <span>${off.cargoType}</span></div>
+        <div class="meta-item">📅 <span>${off.date} ${off.time}</span></div>
+        <div class="meta-item">🚗 Mashina: <span>${off.car}</span></div>
+        <div class="meta-item">👤 Haydovchi: <span>${off.driverName}</span></div>
+      </div>
+      <div style="margin-top:10px">
+        <button class="btn btn--primary btn--sm" onclick="contactDriver('${off.driverId}','${off.id}')">📞 Haydovchi bilan bog'lanish</button>
+      </div>`;
+    container.appendChild(div);
+  });
+}
+
+function contactDriver(driverId, offId){
+  const driver = state.users[driverId];
+  showPopup(
+    "📞 Haydovchi bilan bog'lanish",
+    `<strong>${driver?.name}</strong> bilan bog'lanish uchun:<br/><br/>
+     <div style="background:rgba(0,0,0,.3);padding:10px 14px;border-radius:10px;font-family:monospace;font-size:15px;font-weight:700">📞 +998 90 Demo XX XX</div>
+     <br/><div style="font-size:12px;color:var(--muted)">Real tizimda to'g'ridan-to'g'ri chat orqali muloqot qilinadi.</div>`,
+    [{ label:'OK', cls:'btn--primary', action:'closePopup()' }]
+  );
+}
+
+function renderCustNotifs(){
+  const uid = state.currentUser;
+  const notifs = state.notifications[uid]||[];
+  const container = document.getElementById('custNotifsList');
+  if(!container) return;
+
+  if(!notifs.length){
+    container.innerHTML=`<div class="empty-state"><div class="empty-icon">🔔</div><div class="empty-title">Bildirishnoma yo'q</div><div class="empty-sub">Haydovchi buyurtmangizni qabul qilganda shu yerda ko'rasiz</div></div>`;
+    return;
+  }
+  container.innerHTML='';
+  notifs.slice().reverse().forEach(n=>{
+    const div=document.createElement('div');
+    div.className='card card--green'; div.style.marginBottom='14px';
+    div.innerHTML=`
+      <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:6px">🔔 Haydovchi so'rovi</div>
+      <div style="font-size:14px;color:var(--text);margin-bottom:12px;line-height:1.6">${n.msg}</div>
+      ${!n.confirmed
+        ? `<div style="display:flex;gap:8px;flex-wrap:wrap">
+             <button class="btn btn--primary btn--sm" onclick="confirmDelivery('${n.id}','${uid}')">✅ Tasdiqlash</button>
+             <button class="btn btn--ghost btn--sm">❌ Rad etish</button>
+           </div>`
+        : `<span class="badge badge--green">✅ Tasdiqlangan</span>`
+      }`;
+    container.appendChild(div);
+  });
+  updateCustBubbles();
+}
+
+function confirmDelivery(notifId, uid){
+  const notifs = state.notifications[uid]||[];
+  const n = notifs.find(x=>x.id===notifId);
+  if(n) n.confirmed = true;
+  saveState();
+  toast('✅ Tasdiqlandi!');
+  renderCustNotifs();
+  updateCustBubbles();
+}
+
+function renderCustProfile(){
+  const uid = state.currentUser;
+  const user = state.users[uid];
+  if(!user || user.type!=='customer') return;
+
+  const myOrders = state.orders.filter(o=>o.customerId===uid);
+  const active = myOrders.filter(o=>o.status===STATUS.active).length;
+  const done   = myOrders.filter(o=>o.status===STATUS.done).length;
+
+  if(document.getElementById('custAvatarBig')) document.getElementById('custAvatarBig').textContent=user.emoji;
+  if(document.getElementById('custProfileName')) document.getElementById('custProfileName').textContent=user.name;
+  if(document.getElementById('custStatOrders')) document.getElementById('custStatOrders').textContent=myOrders.length;
+  if(document.getElementById('custStatActive')) document.getElementById('custStatActive').textContent=active;
+  if(document.getElementById('custStatDone'))   document.getElementById('custStatDone').textContent=done;
+  if(document.getElementById('custDemoInfo'))   document.getElementById('custDemoInfo').textContent=user.demoInfo;
+}
+
+// ==================== POPUP ==================== 
+function showPopup(title, body, actions){
+  document.getElementById('popupTitle').innerHTML = title;
+  document.getElementById('popupBody').innerHTML  = body;
+  const actionsEl = document.getElementById('popupActions');
+  actionsEl.innerHTML = '';
+  actions.forEach(a=>{
+    const btn = document.createElement('button');
+    btn.className = 'btn ' + a.cls;
+    btn.innerHTML = a.label;
+    btn.setAttribute('onclick', a.action);
+    actionsEl.appendChild(btn);
+  });
+  document.getElementById('popupOverlay').hidden = false;
+}
+
+function closePopup(){
+  document.getElementById('popupOverlay').hidden = true;
+}
+
+// Close on backdrop click
+document.getElementById('popupOverlay').addEventListener('click', function(e){
+  if(e.target === this) closePopup();
+});
+
+// ==================== TOAST ==================== 
+let toastTimer;
+function toast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>{ el.hidden=true; }, 3000);
+}
+
+// ==================== NOTIFICATION BANNER ==================== 
+function showNotif(msg){
+  document.getElementById('notifBody').textContent = msg;
+  document.getElementById('notifBanner').classList.remove('hidden');
+  setTimeout(()=>closeNotif(), 6000);
+}
+function closeNotif(){
+  document.getElementById('notifBanner').classList.add('hidden');
+}
+
+// ==================== UTILS ====================
+function timeSince(iso){
+  const diff = (Date.now()-new Date(iso).getTime())/1000;
+  if(diff<60) return Math.round(diff)+"s oldin";
+  if(diff<3600) return Math.round(diff/60)+"min oldin";
+  if(diff<86400) return Math.round(diff/3600)+"soat oldin";
+  return Math.round(diff/86400)+"kun oldin";
+}
+
+// ==================== INIT ====================
+loadState();
+populateAllSelects();
+
+// If already logged in, show app directly
+if(state.currentUser && state.users[state.currentUser]){
+  showApp();
+} else {
+  document.getElementById('loginPage').style.display='flex';
+}
+</script>
+</body>
+</html>

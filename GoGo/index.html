@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GoGO — O'zbekiston bo'ylab viloyatlararo jo'natma yetkazish</title>
+  <meta name="description" content="GoGO haydovchilar va jo'natuvchilarni bog'lab, viloyatlararo jo'natmalarni yo'l-yo'lakay tez va qulay yetkazishni ta'minlaydi." />
+
+  <link rel="preconnect" href="https://www.youtube-nocookie.com" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- Navbar -->
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a class="brand" href="#top" aria-label="GoGO">
+        <span class="brand__logo">GoGO</span>
+        <span class="brand__tag">Viloyatlararo Crowd Shipping • Uzbekistan</span>
+      </a>
+
+      <nav class="nav" aria-label="Asosiy menyu">
+        <a href="#demo">Demo</a>
+        <a href="#muammo">Muammo</a>
+        <a href="#yechim">Yechim</a>
+        <a href="#jamoa">Jamoa</a>
+        <a href="#qanday">Qanday ishlaydi?</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#mvp">MVP</a>
+      </nav>
+
+      <button class="nav__toggle" id="navToggle" aria-label="Menyuni ochish/yopish" aria-expanded="false">☰</button>
+    </div>
+
+    <!-- Mobil menu (hidden bo'lishi kerak) -->
+    <div class="nav__mobile container" id="navMobile" hidden>
+      <a href="#demo">Demo</a>
+      <a href="#muammo">Muammo</a>
+      <a href="#yechim">Yechim</a>
+      <a href="#jamoa">Jamoa</a>
+      <a href="#qanday">Qanday ishlaydi?</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#mvp">MVP</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main id="top">
+    <section class="hero">
+      <div class="container hero__grid">
+        <div class="hero__content">
+          <div class="pill">Butun O'zbekiston bo'ylab</div>
+          <h1>GoGO — yo'l-yo'lakay jo'natma yetkazish platformasi</h1>
+          <p class="lead">
+            Shaxsiy avtomobilida safarga chiqayotgan haydovchilar va jo'natma yubormoqchi bo'lgan odamlarni bog'laymiz.
+            GoGO shahar ichidagi taxi agregatori emas — bu <b>viloyatlararo marketplace</b>.
+          </p>
+
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#demo">Demo ko'rish</a>
+            <a class="btn btn--ghost" href="#qanday">Qanday ishlaydi?</a>
+          </div>
+
+          <div class="hero__stats">
+            <div class="stat">
+              <div class="stat__kpi">Tuman → Shahar</div>
+              <div class="stat__label">Viloyatlararo yo'nalishlar</div>
+            </div>
+            <div class="stat">
+              <div class="stat__kpi">2 tomonlama</div>
+              <div class="stat__label">Jo'natuvchi + Haydovchi</div>
+            </div>
+            <div class="stat">
+              <div class="stat__kpi">MVP</div>
+              <div class="stat__label">Hackathon uchun demo</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mini demo -->
+        <div class="hero__card">
+          <div class="card card--glass">
+            <h3>Tez demo simulyator</h3>
+            <p class="muted">Marshrut kiriting — shu yo'nalishga mos e'lonlar qanday ko'rsatilishini ko'ring (mock data).</p>
+
+            <div class="form">
+              <label>
+                Qayerdan
+                <input id="fromInput" type="text" placeholder="Masalan: Shofirkon" />
+              </label>
+              <label>
+                Qayerga
+                <input id="toInput" type="text" placeholder="Masalan: Samarqand" />
+              </label>
+              <button class="btn btn--primary" id="findBtn" type="button">Mos e'lonlarni topish</button>
+            </div>
+
+            <div class="results" id="resultsBox" aria-live="polite">
+              <div class="results__empty">Hozircha natija yo'q. Yuqoridan marshrut kiriting.</div>
+            </div>
+
+            <div class="mini-note">
+              ⚠️ Bu demo "matching konsepsiyasi"ni ko'rsatadi. Real tracking/payout MVP'da shart emas.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__bg" aria-hidden="true"></div>
+    </section>
+
+    <!-- Demo -->
+    <section class="section" id="demo">
+      <div class="container">
+        <div class="section__head">
+          <h2>Demo</h2>
+          <p class="muted">Video + videoning pastida loyiha haqida yozma izoh (muammo–yechim–stack–status).</p>
+        </div>
+
+        <div class="demoGrid">
+          <div class="card">
+            <h3>GoGO — Demo video</h3>
+
+            <div class="video-wrapper">
+              <div class="video">
+                <iframe
+                  src="https://www.youtube.com/embed/m1Kgy-DUmpE"
+                  title="GoGO demo video"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                  loading="lazy">
+                </iframe>
+              </div>
+              <div class="video-fallback">
+                <p>📺 Video yuklanmayaptimi?</p>
+                <a href="https://www.youtube.com/watch?v=m1Kgy-DUmpE" target="_blank" rel="noopener" class="btn btn--primary">
+                  YouTube'da tomosha qilish ↗
+                </a>
+              </div>
+            </div>
+
+            <div class="callout">
+              💡 <b>Maslahat:</b> Agar video yuklanmasa, bu brauzer cheklovlari tufayli bo'lishi mumkin (<code>file://</code> orqali ochilganda). 
+              Mahalliy veb-serverni ishlatishingiz yoki yuqoridagi tugmani bosib YouTube'da tomosha qilishingiz mumkin.
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>GoGO — Platforma izohi</h3>
+
+            <p><b>Videoda nima ko'rsatilgan:</b><br/>
+              Video GoGO'ning ishlash ssenariysini ko'rsatadi:
+              jo'natuvchi jo'natma ma'lumotlarini (yo'nalish, vazn, o'lcham) kiritib e'lon joylaydi;
+              shu yo'nalishda yuradigan haydovchilar e'lonni ko'rib, aloqa qiladi;
+              kelishuvdan so'ng haydovchi jo'natmani olib, manzilga yetkazadi.
+              Shuningdek, haydovchilar ham o'z marshruti va sanasini e'lon qilib,
+              mijozlar e'lon bermasdan turib tayyor haydovchi e'lonidan tanlashlari ko'rsatiladi.
+            </p>
+
+            <p><b>Muammo va yechim bog'liqligi:</b><br/>
+              Viloyatlararo jo'natmalarda odamlar ko'pincha "tanish-bilish", avtobus/yo'lovchi orqali yuborishga majbur:
+              jarayon tartibsiz, xavfsizlik va ishonch savollari ochiq qoladi.
+              GoGO esa jo'natuvchi va haydovchini bitta platformada uchrashtirib,
+              <b>yo'nalish bo'yicha moslashtirish</b> (matching) orqali kelishuvni tezlashtiradi va tizimlashtiradi.
+            </p>
+
+            <p><b>Ishlatilgan texnologiyalar (Hackathon MVP):</b><br/>
+              Frontend: HTML + CSS + JavaScript (landing + demo video + simulyator).<br/>
+              (Keyingi bosqich): Backend (FastAPI/Node), DB (PostgreSQL),
+              Auth (telefon OTP), Chat, Reyting, Admin panel, to'lov/escrow integratsiyasi.
+            </p>
+
+            <p><b>Loyiha holati:</b><br/>
+              GoGO hozirda hackathon MVP bosqichida.
+              Keyingi qadamlar: haydovchi verifikatsiyasi (ID + avto),
+              reyting va shikoyat mexanizmi, status tracking, escrow/to'lov, pilot hamkorlar.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Muammo -->
+    <section class="section" id="muammo">
+      <div class="container">
+        <div class="section__head">
+          <h2>Muammo</h2>
+          <p class="muted">Bu joyga faqat manbali real raqamlar qo'ying (uydirmasiz).</p>
+        </div>
+
+        <div class="grid3">
+          <div class="card">
+            <h3>Kelishuv tartibsiz</h3>
+            <p class="muted">
+              Viloyatlararo jo'natmalar ko'pincha "tasodifiy kelishuv" bilan: kim olib boradi, qachon yetadi,
+              qancha turadi — aniq emas.
+            </p>
+            <div class="badge">REAL_RAQAM_SLOT #1</div>
+          </div>
+
+          <div class="card">
+            <h3>Ishonch va xavfsizlik</h3>
+            <p class="muted">
+              "Kim javob beradi?" savoli ochiq: yo'qolish, kechikish, shikastlanish xavfi bor.
+            </p>
+            <div class="badge">REAL_RAQAM_SLOT #2</div>
+          </div>
+
+          <div class="card">
+            <h3>Bo'sh resurs</h3>
+            <p class="muted">
+              Har kuni ko'plab haydovchilar viloyatlararo qatnaydi, mashinada bo'sh joy qoladi —
+              bu resurs monetizatsiya qilinmaydi.
+            </p>
+            <div class="badge">REAL_RAQAM_SLOT #3</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Yechim -->
+    <section class="section" id="yechim">
+      <div class="container">
+        <div class="section__head">
+          <h2>Yechim</h2>
+          <p class="muted">GoGO — bozor markazi: jo'natuvchi va haydovchi bir joyda uchrashadi.</p>
+        </div>
+
+        <div class="grid2">
+          <div class="card">
+            <h3>Jo'natuvchilar uchun</h3>
+            <ul class="list">
+              <li>Tartibli (tezlik, narx, haydovchi reyting)</li>
+              <li>Arzon (hozirgi "tanish-bilish"dan oqilona yoki arzon)</li>
+              <li>Ishonchli (baholash, to'lov escrow, shikoyat)</li>
+            </ul>
+            <div class="callout">Natija: jo'natma vaqtida, qulayroq va xavfsizroq yetkaziladi.</div>
+          </div>
+
+          <div class="card">
+            <h3>Haydovchilar uchun</h3>
+            <ul class="list">
+              <li>Bo'sh joyni pulga aylantirish (mashinada qolgan joy)</li>
+              <li>Yo'ldagi xarajatlarni kamaytirib olish (benzin/yo'l haqqi)</li>
+              <li>Tartibli platforma: e'lon → mos mijoz → olish → yetkazish</li>
+            </ul>
+            <div class="callout">Natija: yo'l xarajatini qoplash + qo'shimcha daromad.</div>
+          </div>
+        </div>
+
+        <div class="card card--accent">
+          <h3>Asosiy farq</h3>
+          <p>
+            GoGO shahar ichida "taksi chaqirish" emas.
+            Bu — <b>viloyatlararo jo'natmalar uchun marketplace</b>:
+            yo'nalish bo'yicha matching, ikki tomonlama e'lon, tez kelishuv.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Jamoa (2×2) -->
+    <section class="section" id="jamoa">
+      <div class="container">
+        <div class="section__head">
+          <h2>Jamoa</h2>
+          <p class="muted">GoGO'ni ishlab chiqayotgan jamoa va vazifalar taqsimoti.</p>
+        </div>
+
+        <!-- 2 ustunli grid: 1-2 bir qatorda, 3-4 bir qatorda -->
+        <div class="team-grid">
+          <div class="team-card card">
+            <img class="teamPhoto" src="group1.jpg" alt="To'rayev Sayfullo" data-preview/>
+            <div class="teamInfo">
+              <div class="teamName">To'rayev Sayfullo</div>
+              <div class="teamRole">Jamoa rahbari • Asoschisi</div>
+              <div class="teamMeta">2025-yil davomida ABS Vision startapida ML Engineer lavozimida faoliyat yuritgan. 2025-yil oktabr oyidan 2026-yil hozirgi vaqtgacha IT Park Qorasuv filialida dasturlashning Backend yo'nalishi bo'yicha o'quvchilarga bilim berib kelmoqda.</div>
+              <ul class="list teamList">
+                <li>Konsepsiya va MVP doirasi</li>
+                <li>Moslashtirish logikasi</li>
+                <li>Backend arxitekturasi rejasi</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="team-card card">
+            <img class="teamPhoto" src="group2.jpg" alt="Murtazaqoluva Mohinur" data-preview/>
+            <div class="teamInfo">
+              <div class="teamName">Murtazaqoluva Mohinur</div>
+              <div class="teamRole">UI/UX Designer</div>
+              <div class="teamMeta">1 yil tajriba</div>
+              <ul class="list teamList">
+                <li>UX oqimlari va prototip</li>
+                <li>Landing dizayn tizimi</li>
+                <li>Foydalanuvchi qulayligi</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="team-card card">
+            <img class="teamPhoto" src="group3.jpg" alt="Bahronov Bahrom" data-preview/>
+            <div class="teamInfo">
+              <div class="teamName">Bahronov Bahrom</div>
+              <div class="teamRole">Full-Stack Dasturchi</div>
+              <div class="teamMeta">2 yil tajriba</div>
+              <ul class="list teamList">
+                <li>Frontend amalga oshirish</li>
+                <li>Backend/DB pilot tayyorgarlik</li>
+                <li>API va deploy rejasi</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="team-card card">
+            <img class="teamPhoto" src="group4.jpg" alt="Umirzoqova Zahro" data-preview/>
+            <div class="teamInfo">
+              <div class="teamName">Umirzoqova Zahro</div>
+              <div class="teamRole">Tadqiqotchi • Xavf va Tahlil</div>
+              <div class="teamMeta">Mijoz takliflari • yangiliklar • xavf baholash</div>
+              <ul class="list teamList">
+                <li>Mijoz ehtiyojlari tahlili</li>
+                <li>Xususiyat takliflari</li>
+                <li>Xavflarni oldindan baholash</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout">
+          Hackathon MVP'da maqsad — konsepsiyani aniq ko'rsatish. Keyingi bosqichda verifikatsiya, rating va escrow bilan ishonchni kuchaytiramiz.
+        </div>
+      </div>
+    </section>
+
+    <!-- Jamoamiz qatnashgan tadbirlar -->
+    <section class="section" id="tadbirlar">
+      <div class="container">
+        <div class="section__head">
+          <h2>👉 Jamoamiz qatnashgan tadbirlar</h2>
+          <p class="muted">Jamoamizning O'zbekiston bo'ylab turli musobaqalar va hakkatonlardagi sayohati.</p>
+        </div>
+
+        <!-- Tadbir 1 -->
+        <div class="event-card card">
+          <div class="event-images">
+            <img src="tadbirlar/photo1.jpg" alt="Milliy AI Hakathon - Jamoa surati" class="event-img" data-preview />
+            <img src="tadbirlar/photo2.jpg" alt="Milliy AI Hakathon - Taqdimot" class="event-img" data-preview />
+          </div>
+          <div class="event-content">
+            <p>2026-yil yanvar oyida to'liq jamoamiz <strong>DeepThinkers</strong> nomi ostida <strong>Milliy AI Hakathon — Samarqand bosqichi</strong>da qatnashdi. <strong>50 ta jamoa</strong> orasida tibbiy AI g'oyamiz <strong>Amora AI</strong>ni taqdim etib, <strong>Sog'liqni saqlash kategoriyasida 6-o'rinni</strong> egallashga muvaffaq bo'ldik.</p>
+          </div>
+        </div>
+
+        <!-- Tadbir 2 -->
+        <div class="event-card card">
+          <div class="event-images">
+            <img src="tadbirlar/photo3.jpg" alt="ICPC Dasturlash musobaqasi - Jamoa 1" class="event-img" data-preview />
+            <img src="tadbirlar/photo4.jpg" alt="ICPC Dasturlash musobaqasi - Jamoa 2" class="event-img" data-preview />
+          </div>
+          <div class="event-content">
+            <p>2025-yil noyabr oyida Toshkent shahrida guruhimizning ikki a'zosi — Jamoa rahbari <strong>Sayfullo To'rayev</strong> va <strong>Full-Stack Dasturchimiz</strong> — ikki xil jamoada <strong>ICPC Xalqaro Dasturlash Musobaqasi</strong>da qatnashdilar. Ikkala jamoa ham <strong>200+ jamoa ichidan TOP 30 jamoaga</strong> muvaffaqiyatli kirdi.</p>
+          </div>
+        </div>
+
+        <!-- Tadbir 3 va 4 - Yonma-yon joylashgan -->
+        <div class="events-row">
+          <!-- Tadbir 3 -->
+          <div class="event-card-small card">
+            <div class="event-images-small">
+              <img src="tadbirlar/photo5.jpg" alt="President Tech Award Hakathon 2025" class="event-img-small" data-preview />
+            </div>
+            <div class="event-content-small">
+              <p><strong>Full-Stack Dasturchimiz Bahrom Bahronov</strong> Toshkentda bo'lib o'tgan <strong>President Tech Award Hakathon 2025</strong>da qatnashib, a'lo natijalarga erishdi.</p>
+            </div>
+          </div>
+
+          <!-- Tadbir 4 -->
+          <div class="event-card-small card">
+            <div class="event-images-small">
+              <img src="tadbirlar/photo6.jpg" alt="Hult Prize Xalqaro Startap Musobaqasi" class="event-img-small" data-preview />
+            </div>
+            <div class="event-content-small">
+              <p>2026-yil yanvar oyida jamoamiz <strong>Amora AI</strong> loyihasi bilan <strong>TUIT Samarqand filiali</strong>da bo'lib o'tgan <strong>Hult Prize Xalqaro Startap Musobaqasi</strong>da qatnashib, saralash bosqichida <strong>2-o'rinni</strong> egallashga muvaffaq bo'ldik.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sertifikatlar bo'limi -->
+    <section class="section" id="sertifikat">
+      <div class="container">
+        <div class="section__head">
+          <h2>👉 Jamoa a'zolarining sertifikatlari</h2>
+          <p class="muted">Sodiq jamoamiz tomonidan qo'lga kiritilgan yutuqlar va e'tiroflar.</p>
+        </div>
+
+        <div class="certificates-grid">
+          <img src="sertifikat/photo1.jpg" alt="Sertifikat 1" class="cert-img" data-preview />
+          <img src="sertifikat/photo2.jpg" alt="Sertifikat 2" class="cert-img" data-preview />
+          <img src="sertifikat/photo3.jpg" alt="Sertifikat 3" class="cert-img" data-preview />
+          <img src="sertifikat/photo4.jpg" alt="Sertifikat 4" class="cert-img" data-preview />
+          <img src="sertifikat/photo5.jpg" alt="Sertifikat 5" class="cert-img" data-preview />
+          <img src="sertifikat/photo6.jpg" alt="Sertifikat 6" class="cert-img" data-preview />
+          <img src="sertifikat/photo7.jpg" alt="Sertifikat 7" class="cert-img" data-preview />
+        </div>
+      </div>
+    </section>
+
+    <!-- Motivatsion bo'lim -->
+    <section class="section" id="motivational">
+      <div class="container">
+        <div class="motivational-card card card--accent">
+          <div class="motivational-content fade-in">
+            <h2 class="motivational-title">💪 Bizning yo'limiz va majburiyatimiz</h2>
+            <p class="motivational-text">
+              Jamoamiz a'zolari yoshligiga qaramay, O'zbekistondagi yosh dasturchilar orasida o'z o'rniga ega bo'lishdi va obro' qozonishdi. Biz doimiy ravishda kuchli jamoa madaniyatini va hamkorlik muhitini shakllantirishga intilamiz. Biz bu yerda to'xtamoqchi emasmiz — biz doimiy o'sish, o'rganish va takomillashuvga sodiqmiz.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Nega biz? bo'limi -->
+    <section class="section" id="why-us">
+      <div class="container">
+        <div class="section__head">
+          <h2>👉 Nega biz bunga qodir bo'lamiz?</h2>
+        </div>
+        
+        <div class="card card--glass">
+          <p class="why-us-text">
+            Barchamiz uylarimizdan uzoqda, begona shaharda tahsil olayotgan talabalarmiz. Biz hal qilayotgan muammo — bu har birimiz va yaqinlarimiz shaxsan boshdan kechirgan narsadir. Har 10 talabadan <strong>7 ta oila</strong> bizning yechimimizni qattiq qo'llab-quvvatladi, duolarini berdi va <strong>GoGO loyihamizdan</strong> albatta foydalanishlarini tasdiqladilar.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Qanday ishlaydi -->
+    <section class="section" id="qanday">
+      <div class="container">
+        <div class="section__head">
+          <h2>Qanday ishlaydi?</h2>
+          <p class="muted">Jo'natuvchi va haydovchi uchun ikki ssenariy.</p>
+        </div>
+
+        <div class="steps">
+          <div class="step card">
+            <div class="step__n">1</div>
+            <h3>Mijoz e'lon joylaydi</h3>
+            <p class="muted">Qayerdan → qayerga, vazn, bo'yi/eni/balandligi, tavsif va aloqa ma'lumotlarini kiritadi.</p>
+          </div>
+
+          <div class="step card">
+            <div class="step__n">2</div>
+            <h3>Mos haydovchilar topiladi</h3>
+            <p class="muted">Shu yo'nalishda yuradigan haydovchilar e'lonni ko'rib, aloqaga chiqadi va kelishuv bo'ladi.</p>
+          </div>
+
+          <div class="step card">
+            <div class="step__n">3</div>
+            <h3>Pickup & delivery</h3>
+            <p class="muted">Haydovchi jo'natmani olib, belgilangan manzilga yetkazadi (keyin: status updates / kvitansiya).</p>
+          </div>
+
+          <div class="step card">
+            <div class="step__n">4</div>
+            <h3>Haydovchi e'lon beradi</h3>
+            <p class="muted">Haydovchi marshrut + sana + "qanday yuk olaman" deb e'lon qiladi. Mijoz haydovchini tanlaydi.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          MVP'da to'lov/escrow va real-time tracking shart emas. Bular roadmap'da bo'ladi.
+        </div>
+      </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section class="section" id="roadmap">
+      <div class="container">
+        <div class="section__head">
+          <h2>Roadmap</h2>
+          <p class="muted">Hackathon → Pilot → Masshtab bosqichlari.</p>
+        </div>
+
+        <div class="timeline">
+          <div class="card">
+            <h3>MVP (Hackathon)</h3>
+            <ul class="list">
+              <li>Landing + demo video</li>
+              <li>Muammo–yechim–qanday ishlaydi</li>
+              <li>Mock matching (simulyator)</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>V1 (Pilot)</h3>
+            <ul class="list">
+              <li>Telefon OTP login</li>
+              <li>Haydovchi verifikatsiyasi (ID + avto)</li>
+              <li>Chat + status tracking</li>
+              <li>Reyting & shikoyat</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>V2 (Masshtab)</h3>
+            <ul class="list">
+              <li>To'lov / escrow</li>
+              <li>Sug'urta hamkorligi</li>
+              <li>Biznes akkauntlar</li>
+              <li>AI: narx tavsiyasi / fraud signal</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MVP -->
+    <section class="section" id="mvp">
+      <div class="container">
+        <div class="section__head">
+          <h2>MVP</h2>
+          <p class="muted">"Nima bor / nima yo'q"ni aniq ko'rsatamiz.</p>
+        </div>
+
+        <div class="grid2">
+          <div class="card">
+            <h3>MVP'da bor ✅</h3>
+            <ul class="list">
+              <li>Demo video</li>
+              <li>Muammo–yechim hikoyasi</li>
+              <li>Qanday ishlaydi (2 oqim)</li>
+              <li>Haydovchi va mijoz uchun to'liq demo</li>
+              <li>Yuk topish va filtrlash</li>
+              <li>Buyurtma berish va qabul qilish</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>MVP'da yo'q ❌</h3>
+            <ul class="list">
+              <li>Escrow/to'lov</li>
+              <li>Real-time tracking</li>
+              <li>To'liq verifikatsiya & sug'urta</li>
+              <li>Yirik yuklar (MVP'da kichik jo'natma)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Demo CTA -->
+        <div class="demo-cta-box card card--accent">
+          <div class="demo-cta-inner">
+            <div>
+              <h3 style="margin:0 0 6px">🚀 GoGO interaktiv demoni sinab ko'ring</h3>
+              <p class="muted" style="margin:0">Haydovchi yoki mijoz sifatida tizimga kiring va barcha funksiyalarni o'zingiz sinab ko'ring.</p>
+            </div>
+            <a href="demo.html" class="btn btn--primary btn--large">
+              ▶ Demoni sinab ko'rish
+            </a>
+          </div>
+        </div>
+
+        <footer class="footer">
+          <div class="muted">© <span id="year"></span> GoGO — <strong>DeepThinkers Team</strong></div>
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+  <!-- IMAGE PREVIEW MODAL -->
+<div id="imageModal" class="img-modal" hidden>
+  <span class="img-modal-close" id="imgModalClose">&times;</span>
+  <img id="imgModalContent" />
+</div>
+
+</body>
+</html>
