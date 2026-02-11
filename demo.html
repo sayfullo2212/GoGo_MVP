@@ -138,6 +138,10 @@ select.form-control option{background:#0f1829;color:var(--text)}
   padding:12px 0;gap:12px;flex-wrap:wrap;
 }
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+.brand__img{
+  height:34px;width:auto;display:block;object-fit:contain;
+  filter:drop-shadow(0 6px 16px rgba(0,0,0,.45));
+}
 .brand-logo{
   font-weight:900;font-size:20px;padding:6px 12px;border-radius:10px;
   background:linear-gradient(135deg,rgba(38,208,206,.25),rgba(108,92,231,.25));
@@ -342,6 +346,7 @@ select.form-control option{background:#0f1829;color:var(--text)}
   .profile-stats{grid-template-columns:repeat(3,1fr)}
   .order-meta{grid-template-columns:1fr}
   .brand-tag{display:none}
+  .brand__img{height:30px}
 }
 @media(max-width:480px){
   .filter-grid{grid-template-columns:1fr}
@@ -390,6 +395,7 @@ code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-siz
   <div class="container">
     <div class="topbar-inner">
       <a href="index.html" class="brand">
+        <img class="brand__img" src="logo.jpg" alt="GoGO logo" />
         <span class="brand-logo">GoGO</span>
         <span class="brand-tag">Demo</span>
       </a>
