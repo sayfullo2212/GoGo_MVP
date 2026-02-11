@@ -197,3 +197,21 @@ function updateActiveNav() {
 
 window.addEventListener('scroll', updateActiveNav);
 updateActiveNav();
+// ===== GoGO Chatbot (Cloudflare Worker orqali) =====
+async function askGoGO(question) {
+  const res = await fetch(
+    "https://wispy-cake-2386.sayfulloturayev5.workers.dev/",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: question
+      })
+    }
+  );
+
+  const data = await res.json();
+  return data.reply || "Javob topilmadi";
+}

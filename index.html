@@ -579,3 +579,32 @@
 
 </body>
 </html>
+<section class="section">
+  <h2>🤖 GoGO Yordamchi</h2>
+
+  <input
+    id="chatInput"
+    placeholder="Savolingizni yozing (masalan: GoGO nima?)"
+    style="width:100%; padding:12px; margin-bottom:10px;"
+  />
+
+  <button
+    class="btn btn--primary"
+    onclick="sendChat()"
+  >
+    Savol berish
+  </button>
+
+  <div id="chatAnswer" style="margin-top:15px;"></div>
+</section>
+
+<script>
+async function sendChat() {
+  const q = document.getElementById("chatInput").value;
+  const box = document.getElementById("chatAnswer");
+  box.innerHTML = "⏳ Javob olinmoqda...";
+
+  const answer = await askGoGO(q);
+  box.innerHTML = "🤖 " + answer;
+}
+</script>
