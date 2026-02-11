@@ -15,6 +15,8 @@
   <header class="topbar">
     <div class="container topbar__inner">
       <a class="brand" href="#top" aria-label="GoGO">
+        <!-- LOGO (fayl nomi boshqacha bo'lsa: src ni moslang, masalan: logo.svg / logo.jpg) -->
+        <img class="brand__img" src="logo.png" alt="GoGO logo" />
         <span class="brand__logo">GoGO</span>
         <span class="brand__tag">Viloyatlararo Crowd Shipping • Uzbekistan</span>
       </a>
@@ -25,6 +27,7 @@
         <a href="#yechim">Yechim</a>
         <a href="#jamoa">Jamoa</a>
         <a href="#qanday">Qanday ishlaydi?</a>
+        <a href="#biznes">Biznes model</a>
         <a href="#roadmap">Roadmap</a>
         <a href="#mvp">MVP</a>
       </nav>
@@ -32,13 +35,14 @@
       <button class="nav__toggle" id="navToggle" aria-label="Menyuni ochish/yopish" aria-expanded="false">☰</button>
     </div>
 
-    <!-- Mobil menu (hidden bo'lishi kerak) -->
+    <!-- Mobil menu -->
     <div class="nav__mobile container" id="navMobile" hidden>
       <a href="#demo">Demo</a>
       <a href="#muammo">Muammo</a>
       <a href="#yechim">Yechim</a>
       <a href="#jamoa">Jamoa</a>
       <a href="#qanday">Qanday ishlaydi?</a>
+      <a href="#biznes">Biznes model</a>
       <a href="#roadmap">Roadmap</a>
       <a href="#mvp">MVP</a>
     </div>
@@ -77,33 +81,7 @@
           </div>
         </div>
 
-        <!-- Mini demo -->
-        <div class="hero__card">
-          <div class="card card--glass">
-            <h3>Tez demo simulyator</h3>
-            <p class="muted">Marshrut kiriting — shu yo'nalishga mos e'lonlar qanday ko'rsatilishini ko'ring (mock data).</p>
-
-            <div class="form">
-              <label>
-                Qayerdan
-                <input id="fromInput" type="text" placeholder="Masalan: Shofirkon" />
-              </label>
-              <label>
-                Qayerga
-                <input id="toInput" type="text" placeholder="Masalan: Samarqand" />
-              </label>
-              <button class="btn btn--primary" id="findBtn" type="button">Mos e'lonlarni topish</button>
-            </div>
-
-            <div class="results" id="resultsBox" aria-live="polite">
-              <div class="results__empty">Hozircha natija yo'q. Yuqoridan marshrut kiriting.</div>
-            </div>
-
-            <div class="mini-note">
-              ⚠️ Bu demo "matching konsepsiyasi"ni ko'rsatadi. Real tracking/payout MVP'da shart emas.
-            </div>
-          </div>
-        </div>
+        <!-- Tez demo simulator O'CHIRILDI -->
       </div>
 
       <div class="hero__bg" aria-hidden="true"></div>
@@ -140,10 +118,7 @@
               </div>
             </div>
 
-            <div class="callout">
-              💡 <b>Maslahat:</b> Agar video yuklanmasa, bu brauzer cheklovlari tufayli bo'lishi mumkin (<code>file://</code> orqali ochilganda). 
-              Mahalliy veb-serverni ishlatishingiz yoki yuqoridagi tugmani bosib YouTube'da tomosha qilishingiz mumkin.
-            </div>
+            <!-- YouTube tagidagi MASLAHAT O'CHIRILDI -->
           </div>
 
           <div class="card">
@@ -159,14 +134,14 @@
             </p>
 
             <p><b>Muammo va yechim bog'liqligi:</b><br/>
-              Viloyatlararo jo'natmalarda odamlar ko'pincha "tanish-bilish", avtobus/yo'lovchi orqali yuborishga majbur:
+              Viloyatlararo jo'natmalarda odamlar ko'pincha Telegram/OLX yoki "tanish-bilish" orqali yuborishga majbur:
               jarayon tartibsiz, xavfsizlik va ishonch savollari ochiq qoladi.
               GoGO esa jo'natuvchi va haydovchini bitta platformada uchrashtirib,
               <b>yo'nalish bo'yicha moslashtirish</b> (matching) orqali kelishuvni tezlashtiradi va tizimlashtiradi.
             </p>
 
             <p><b>Ishlatilgan texnologiyalar (Hackathon MVP):</b><br/>
-              Frontend: HTML + CSS + JavaScript (landing + demo video + simulyator).<br/>
+              Frontend: HTML + CSS + JavaScript (landing + demo video).<br/>
               (Keyingi bosqich): Backend (FastAPI/Node), DB (PostgreSQL),
               Auth (telefon OTP), Chat, Reyting, Admin panel, to'lov/escrow integratsiyasi.
             </p>
@@ -186,9 +161,10 @@
       <div class="container">
         <div class="section__head">
           <h2>Muammo</h2>
-          <p class="muted">Bu joyga faqat manbali real raqamlar qo'ying (uydirmasiz).</p>
+          <p class="muted">Muammo real hayotdagi og'riqli nuqtalarga tayangan holda berilgan.</p>
         </div>
 
+        <!-- 5 ta muammo: 1-2 saqlanadi, 3-4-5 yangilandi -->
         <div class="grid3">
           <div class="card">
             <h3>Kelishuv tartibsiz</h3>
@@ -208,12 +184,27 @@
           </div>
 
           <div class="card">
-            <h3>Bo'sh resurs</h3>
+            <h3>Yagona platforma yo'qligi</h3>
             <p class="muted">
-              Har kuni ko'plab haydovchilar viloyatlararo qatnaydi, mashinada bo'sh joy qoladi —
-              bu resurs monetizatsiya qilinmaydi.
+              Haydovchi va mijoz manfaatini birdek o'ylaydigan, butun O'zbekiston bo'ylab ishlaydigan yagona marketplace yo'q.
+              Natijada hamma Telegram/OLX yoki "borib ko'rish" orqali o'z bilganicha ishlaydi.
             </p>
-            <div class="badge">REAL_RAQAM_SLOT #3</div>
+          </div>
+
+          <div class="card">
+            <h3>Pitakka borishga majburiyat</h3>
+            <p class="muted">
+              Ko'pchilik jo'natma yuborish uchun taksistlar turadigan pitaklarga borishga majbur bo'ladi —
+              bu qo'shimcha vaqt va mablag' yo'qotishiga olib keladi.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Sun'iy narxlar va logistika tarqoqligi</h3>
+            <p class="muted">
+              Narxlarni haydovchilar o'zicha belgilaydi, asossiz bahona bilan sun'iy oshib ketish holatlari tez-tez uchraydi.
+              Nafaqat yengil jo'natmalar, balki og'ir yuklar uchun ham yuk/transport topishga yagona platforma yo'q.
+            </p>
           </div>
         </div>
       </div>
@@ -224,43 +215,43 @@
       <div class="container">
         <div class="section__head">
           <h2>Yechim</h2>
-          <p class="muted">GoGO — bozor markazi: jo'natuvchi va haydovchi bir joyda uchrashadi.</p>
+          <p class="muted">GoGO — jo'natuvchi va haydovchini bog'laydigan xolis platforma.</p>
         </div>
 
         <div class="grid2">
           <div class="card">
-            <h3>Jo'natuvchilar uchun</h3>
+            <h3>Biz nima qilamiz?</h3>
             <ul class="list">
-              <li>Tartibli (tezlik, narx, haydovchi reyting)</li>
-              <li>Arzon (hozirgi "tanish-bilish"dan oqilona yoki arzon)</li>
-              <li>Ishonchli (baholash, to'lov escrow, shikoyat)</li>
+              <li>Biz jo'natmalarni o'zimiz tashib bermaymiz — <b>mijoz va haydovchi o'rtasida aloqa va kelishuvni</b> tizimlashtiramiz.</li>
+              <li>Ikkala tomon manfaatini <b>xolis</b> himoya qilamiz: tartib, shaffoflik, ishonch.</li>
+              <li>Yo'qolish holatlarini kamaytirish uchun: verifikatsiya, reyting, shikoyat va status jarayoni.</li>
             </ul>
-            <div class="callout">Natija: jo'natma vaqtida, qulayroq va xavfsizroq yetkaziladi.</div>
+            <div class="callout">Natija: jo'natma yuborish — oddiy, tez va nazoratli jarayonga aylanadi.</div>
           </div>
 
           <div class="card">
-            <h3>Haydovchilar uchun</h3>
+            <h3>Asosiy foyda va kafolat</h3>
             <ul class="list">
-              <li>Bo'sh joyni pulga aylantirish (mashinada qolgan joy)</li>
-              <li>Yo'ldagi xarajatlarni kamaytirib olish (benzin/yo'l haqqi)</li>
-              <li>Tartibli platforma: e'lon → mos mijoz → olish → yetkazish</li>
+              <li><b>Narx nazorati:</b> qat'iy qoida va limitlar (ikkala tomonga ham qulay).</li>
+              <li><b>Uyidan olib ketish:</b> pitakka borish shart emas — haydovchi keladi (xizmat sifatida qo'shimcha haq bo'lishi mumkin).</li>
+              <li><b>Fond (compensation fund):</b> jarayonda zarar ko'rilgan yuklar bo'yicha qoplash mexanizmi.</li>
             </ul>
-            <div class="callout">Natija: yo'l xarajatini qoplash + qo'shimcha daromad.</div>
+            <div class="callout">Bu qimmatbaho yuklarni ham ishonchli jo'natish imkonini beradi.</div>
           </div>
         </div>
 
         <div class="card card--accent">
-          <h3>Asosiy farq</h3>
-          <p>
-            GoGO shahar ichida "taksi chaqirish" emas.
-            Bu — <b>viloyatlararo jo'natmalar uchun marketplace</b>:
-            yo'nalish bo'yicha matching, ikki tomonlama e'lon, tez kelishuv.
+          <h3>Kengayish strategiyasi</h3>
+          <p class="muted">
+            Loyiha o'sishi bilan GoGO og'ir yuk avtomobillari (truck) uchun ham yuk topish imkoniyatini yaratadi.
+            Bu mamlakat logistikasidagi tarqoqlik va murakkablikni kamaytirib, ham oddiy odamlar, ham bizneslar uchun jarayonni ancha qulay qiladi.
+            Shuningdek, chet el sarmoyadorlari va hamkorlar uchun O'zbekiston logistikasiga kirishni osonlashtiradi.
           </p>
         </div>
       </div>
     </section>
 
-    <!-- Jamoa (2×2) -->
+    <!-- Jamoa -->
     <section class="section" id="jamoa">
       <div class="container">
         <div class="section__head">
@@ -268,7 +259,6 @@
           <p class="muted">GoGO'ni ishlab chiqayotgan jamoa va vazifalar taqsimoti.</p>
         </div>
 
-        <!-- 2 ustunli grid: 1-2 bir qatorda, 3-4 bir qatorda -->
         <div class="team-grid">
           <div class="team-card card">
             <img class="teamPhoto" src="group1.jpg" alt="To'rayev Sayfullo" data-preview/>
@@ -333,7 +323,7 @@
       </div>
     </section>
 
-    <!-- Jamoamiz qatnashgan tadbirlar -->
+    <!-- Tadbirlar -->
     <section class="section" id="tadbirlar">
       <div class="container">
         <div class="section__head">
@@ -341,7 +331,6 @@
           <p class="muted">Jamoamizning O'zbekiston bo'ylab turli musobaqalar va hakkatonlardagi sayohati.</p>
         </div>
 
-        <!-- Tadbir 1 -->
         <div class="event-card card">
           <div class="event-images">
             <img src="tadbirlar/photo1.jpg" alt="Milliy AI Hakathon - Jamoa surati" class="event-img" data-preview />
@@ -352,7 +341,6 @@
           </div>
         </div>
 
-        <!-- Tadbir 2 -->
         <div class="event-card card">
           <div class="event-images">
             <img src="tadbirlar/photo3.jpg" alt="ICPC Dasturlash musobaqasi - Jamoa 1" class="event-img" data-preview />
@@ -363,9 +351,7 @@
           </div>
         </div>
 
-        <!-- Tadbir 3 va 4 - Yonma-yon joylashgan -->
         <div class="events-row">
-          <!-- Tadbir 3 -->
           <div class="event-card-small card">
             <div class="event-images-small">
               <img src="tadbirlar/photo5.jpg" alt="President Tech Award Hakathon 2025" class="event-img-small" data-preview />
@@ -375,7 +361,6 @@
             </div>
           </div>
 
-          <!-- Tadbir 4 -->
           <div class="event-card-small card">
             <div class="event-images-small">
               <img src="tadbirlar/photo6.jpg" alt="Hult Prize Xalqaro Startap Musobaqasi" class="event-img-small" data-preview />
@@ -388,7 +373,7 @@
       </div>
     </section>
 
-    <!-- Sertifikatlar bo'limi -->
+    <!-- Sertifikatlar -->
     <section class="section" id="sertifikat">
       <div class="container">
         <div class="section__head">
@@ -408,30 +393,34 @@
       </div>
     </section>
 
-    <!-- Motivatsion bo'lim -->
+    <!-- Motivatsion -->
     <section class="section" id="motivational">
       <div class="container">
         <div class="motivational-card card card--accent">
           <div class="motivational-content fade-in">
             <h2 class="motivational-title">💪 Bizning yo'limiz va majburiyatimiz</h2>
             <p class="motivational-text">
-              Jamoamiz a'zolari yoshligiga qaramay, O'zbekistondagi yosh dasturchilar orasida o'z o'rniga ega bo'lishdi va obro' qozonishdi. Biz doimiy ravishda kuchli jamoa madaniyatini va hamkorlik muhitini shakllantirishga intilamiz. Biz bu yerda to'xtamoqchi emasmiz — biz doimiy o'sish, o'rganish va takomillashuvga sodiqmiz.
+              Jamoamiz a'zolari yoshligiga qaramay, O'zbekistondagi yosh dasturchilar orasida o'z o'rniga ega bo'lishdi va obro' qozonishdi.
+              Biz doimiy ravishda kuchli jamoa madaniyatini va hamkorlik muhitini shakllantirishga intilamiz.
+              Biz bu yerda to'xtamoqchi emasmiz — biz doimiy o'sish, o'rganish va takomillashuvga sodiqmiz.
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Nega biz? bo'limi -->
+    <!-- Nega biz? -->
     <section class="section" id="why-us">
       <div class="container">
         <div class="section__head">
           <h2>👉 Nega biz bunga qodir bo'lamiz?</h2>
         </div>
-        
+
         <div class="card card--glass">
           <p class="why-us-text">
-            Barchamiz uylarimizdan uzoqda, begona shaharda tahsil olayotgan talabalarmiz. Biz hal qilayotgan muammo — bu har birimiz va yaqinlarimiz shaxsan boshdan kechirgan narsadir. Har 10 talabadan <strong>7 ta oila</strong> bizning yechimimizni qattiq qo'llab-quvvatladi, duolarini berdi va <strong>GoGO loyihamizdan</strong> albatta foydalanishlarini tasdiqladilar.
+            Barchamiz uylarimizdan uzoqda, begona shaharda tahsil olayotgan talabalarmiz.
+            Biz hal qilayotgan muammo — bu har birimiz va yaqinlarimiz shaxsan boshdan kechirgan narsadir.
+            Har 10 talabadan <strong>7 ta oila</strong> bizning yechimimizni qattiq qo'llab-quvvatladi, duolarini berdi va <strong>GoGO loyihamizdan</strong> albatta foydalanishlarini tasdiqladilar.
           </p>
         </div>
       </div>
@@ -470,9 +459,51 @@
             <p class="muted">Haydovchi marshrut + sana + "qanday yuk olaman" deb e'lon qiladi. Mijoz haydovchini tanlaydi.</p>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="callout">
-          MVP'da to'lov/escrow va real-time tracking shart emas. Bular roadmap'da bo'ladi.
+    <!-- Biznes model -->
+    <section class="section" id="biznes">
+      <div class="container">
+        <div class="section__head">
+          <h2>Biznes model</h2>
+          <p class="muted">Asosiy daromad: har bir yakunlangan jo'natma to'lovidan <b>10%</b> platforma komissiyasi.</p>
+        </div>
+
+        <div class="grid2">
+          <div class="card">
+            <h3>1) Yengil avtomobil jo'natmalari (B2C / kichik paketlar)</h3>
+            <ul class="list">
+              <li><b>O'rtacha oyiga:</b> 3 000 ta jo'natma</li>
+              <li><b>O'rtacha chek:</b> 35 000 so'm (max: 50 000 so'm limitga mos)</li>
+              <li><b>Oy aylanma (GMV):</b> 3 000 × 35 000 = <b>105 000 000 so'm</b></li>
+              <li><b>10% komissiya:</b> <b>10 500 000 so'm / oy</b></li>
+              <li><b>Yiliga:</b> 36 000 ta jo'natma → <b>126 000 000 so'm</b> komissiya</li>
+            </ul>
+            <div class="callout">Bu segment tez o'sadi: ko'p sonli, kichik chekli, ommaviy foydalanish.</div>
+          </div>
+
+          <div class="card">
+            <h3>2) Katta logistika jo'natmalari (B2B / biznes yuklar)</h3>
+            <ul class="list">
+              <li><b>O'rtacha oyiga:</b> 250 ta jo'natma</li>
+              <li><b>O'rtacha chek:</b> 1 200 000 so'm</li>
+              <li><b>Oy aylanma (GMV):</b> 250 × 1 200 000 = <b>300 000 000 so'm</b></li>
+              <li><b>10% komissiya:</b> <b>30 000 000 so'm / oy</b></li>
+              <li><b>Yiliga:</b> 3 000 ta jo'natma → <b>360 000 000 so'm</b> komissiya</li>
+            </ul>
+            <div class="callout">Bu segmentda hamkor do'konlar va firmalar bilan shartnoma orqali barqaror oqim yaratiladi.</div>
+          </div>
+        </div>
+
+        <div class="card card--accent">
+          <h3>1 yillik umumiy natija (taxminiy)</h3>
+          <p class="muted" style="margin-bottom:10px;">
+            Yengil avtomobil segmenti: <b>126 000 000 so'm</b> / yil + Katta logistika segmenti: <b>360 000 000 so'm</b> / yil
+          </p>
+          <p style="margin:0;">
+            <b>Jami komissiya:</b> <b>486 000 000 so'm / yil</b> (o'sish bilan bu ko'rsatkich sezilarli oshadi).
+          </p>
         </div>
       </div>
     </section>
@@ -482,21 +513,21 @@
       <div class="container">
         <div class="section__head">
           <h2>Roadmap</h2>
-          <p class="muted">Hackathon → Pilot → Masshtab bosqichlari.</p>
+          <p class="muted">Hackathon → Pilot → Masshtab → Truck → Global.</p>
         </div>
 
         <div class="timeline">
-          <div class="card">
-            <h3>MVP (Hackathon)</h3>
+          <div class="card roadmap--done">
+            <h3>MVP (Hackathon) — ✅ Bajarildi</h3>
             <ul class="list">
               <li>Landing + demo video</li>
               <li>Muammo–yechim–qanday ishlaydi</li>
-              <li>Mock matching (simulyator)</li>
+              <li>Pitch uchun tayyor sahifa</li>
             </ul>
           </div>
 
-          <div class="card">
-            <h3>V1 (Pilot)</h3>
+          <div class="card roadmap--progress">
+            <h3>V1 (Pilot) — 🟡 Jarayonda</h3>
             <ul class="list">
               <li>Telefon OTP login</li>
               <li>Haydovchi verifikatsiyasi (ID + avto)</li>
@@ -505,15 +536,38 @@
             </ul>
           </div>
 
-          <div class="card">
-            <h3>V2 (Masshtab)</h3>
+          <div class="card roadmap--scale">
+            <h3>V2 (Masshtab) — 🇺🇿 Ommaviy ishga tushirish</h3>
             <ul class="list">
-              <li>To'lov / escrow</li>
-              <li>Sug'urta hamkorligi</li>
-              <li>Biznes akkauntlar</li>
-              <li>AI: narx tavsiyasi / fraud signal</li>
+              <li>Yengil avtomobillarni ro'yxatdan o'tkazish va ishlashni to'liq yo'lga qo'yish</li>
+              <li>Butun O'zbekiston bo'yicha ommaga tanitish (marketing + hamkorlik)</li>
+              <li>Poytaxt ↔ viloyatlar, viloyatlar ↔ viloyatlar yo'nalishlarida barqaror oqim</li>
+              <li>Do'konlar/firma jo'natmalari bilan hamkorlik (doimiy jo'natma yuboruvchilar)</li>
             </ul>
           </div>
+
+          <div class="card roadmap--truck">
+            <h3>V3 (Truck) — 🚚 Katta yuklar ekotizimi</h3>
+            <ul class="list">
+              <li>Truck/og'ir yuk avtomobillari uchun ro'yxatdan o'tish</li>
+              <li>Yuk topish, marshrut bo'yicha matching, shartnoma asosida ishlash</li>
+              <li>Logistika kompaniyalari bilan hamkorlik</li>
+              <li>Shartnoma, kvitansiya va xavfsizlik mexanizmlarini kuchaytirish</li>
+            </ul>
+          </div>
+
+          <div class="card roadmap--global">
+            <h3>V4 (Global) — 🌍 Jahon bozoriga chiqish</h3>
+            <ul class="list">
+              <li>Chegara oldi yo'nalishlari va xalqaro hamkorlar bilan pilot</li>
+              <li>Investorlarga O'zbekiston logistikasiga “oʻson kirish” modeli</li>
+              <li>Regional ekspansiya (Markaziy Osiyo) uchun strategiya</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout">
+          Eslatma: Roadmap ranglari uchun styles.css ga mos class ranglari qo'shiladi (roadmap--done / roadmap--progress / roadmap--scale / roadmap--truck / roadmap--global).
         </div>
       </div>
     </section>
@@ -533,9 +587,7 @@
               <li>Demo video</li>
               <li>Muammo–yechim hikoyasi</li>
               <li>Qanday ishlaydi (2 oqim)</li>
-              <li>Haydovchi va mijoz uchun to'liq demo</li>
-              <li>Yuk topish va filtrlash</li>
-              <li>Buyurtma berish va qabul qilish</li>
+              <li>Hakamlar uchun pitch sahifa</li>
             </ul>
           </div>
 
@@ -545,12 +597,11 @@
               <li>Escrow/to'lov</li>
               <li>Real-time tracking</li>
               <li>To'liq verifikatsiya & sug'urta</li>
-              <li>Yirik yuklar (MVP'da kichik jo'natma)</li>
+              <li>Truck logistika (V3 da)</li>
             </ul>
           </div>
         </div>
 
-        <!-- Demo CTA -->
         <div class="demo-cta-box card card--accent">
           <div class="demo-cta-inner">
             <div>
@@ -571,11 +622,11 @@
   </main>
 
   <script src="script.js"></script>
-  <!-- IMAGE PREVIEW MODAL -->
-<div id="imageModal" class="img-modal" hidden>
-  <span class="img-modal-close" id="imgModalClose">&times;</span>
-  <img id="imgModalContent" />
-</div>
 
+  <!-- IMAGE PREVIEW MODAL -->
+  <div id="imageModal" class="img-modal" hidden>
+    <span class="img-modal-close" id="imgModalClose">&times;</span>
+    <img id="imgModalContent" />
+  </div>
 </body>
 </html>
